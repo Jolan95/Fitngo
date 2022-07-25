@@ -43,7 +43,7 @@ class AdminController extends AbstractController
         $password = "admin";
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
-        $user->setEmail("bordeaux@fitngo.fr");
+        $user->setEmail("Amiens@fitngo.fr");
         $user->setRoles(["ROLE_FRANCHISE"]);
         $user->setFranchise($franchise);
         $entityManager = $manager->getManager();
