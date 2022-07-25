@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-
-
 class SecurityController extends AbstractController
 {
 
@@ -17,14 +15,23 @@ class SecurityController extends AbstractController
     
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
 
-        // get the login error if there is one
+    
+    {
+        if ($this->getUser()) {
+            $roles = $this->getUser()->getRoles();
+            if(in_array("ROLE_ADMIN", $roles)){
+                return $this->redirectToRoute('app_admin');
+            } else if (in_array("ROLE_STRUCTRUE", $roles)){
+                return $this->redirectToRoute("read_franchise");
+            } else{
+                return $this->redirectToRoute('read_structure');
+            }
+            
+         }
+        
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
