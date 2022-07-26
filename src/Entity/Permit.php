@@ -107,4 +107,14 @@ class Permit
 
         return $this;
     }
+    public function setOptions(bool $common_data){
+        $this->setDetailedData($common_data);
+        $this->setLiveChat($common_data);
+        $this->setTeamSchedule($common_data);
+        $this->setPaymentOnline($common_data);
+        $this->setNewsletter($common_data);
+        $this->setVirtualTraining($common_data);
+
+        return $this;
+    }
 }

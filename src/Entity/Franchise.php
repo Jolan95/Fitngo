@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FranchiseRepository::class)]
+
 class Franchise
 {
     #[ORM\Id]
@@ -29,7 +30,7 @@ class Franchise
     #[ORM\JoinColumn(nullable: false)]
     private ?Permit $Permit = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable : true)]
     private ?\DateTimeInterface $last_connection = null;
 
     public function __construct()
