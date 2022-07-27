@@ -2,29 +2,30 @@
 
 namespace App\Form;
 
-use App\Entity\User;
-use Doctrine\DBAL\Types\TextType;
+use App\Entity\Permit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class NewStructureType extends AbstractType
+class PermitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('name')
-            ->add('save', SubmitType::class, ['label' => 'Créer une nouvelle franchise'])
+            ->add('newsletter')
+            ->add('payment_online')
+            ->add('team_schedule')
+            ->add('live_chat')
+            ->add('virtual_training')
+            ->add('detailed_data')
+            
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Permit::class,
         ]);
     }
 }

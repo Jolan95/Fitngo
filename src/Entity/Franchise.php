@@ -124,6 +124,7 @@ class Franchise
         return $this->last_connection;
     }
 
+
     public function setLastConnection(\DateTimeInterface $last_connection): self
     {
         $this->last_connection = $last_connection;
