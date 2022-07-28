@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container">
+    <h2>Créer une nouvelle franchise</h2> 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-3">
+            <div>{{ message }}</div>
+            <div><button class="btn">Retour Au Menu</button></div>
+            <div><button class="btn">Créer une nouvelle Franchise</button></div>
+        </div>
+    {% endfor %} 
+    {{ form_start(form) }}
+        {{ form_row(form.email)}}
+        {{ form_row(form.name) }}
+    {{ form_end(form) }}
+       
+</div>
+{% endblock %}

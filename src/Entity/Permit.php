@@ -31,7 +31,7 @@ class Permit
     #[ORM\Column]
     private ?bool $detailed_data = null;
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }

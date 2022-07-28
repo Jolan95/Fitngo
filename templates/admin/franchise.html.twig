@@ -14,14 +14,17 @@
         {{ form_widget(form) }}
         <button type="submit">Enregistrer les modifications</button>
         {{ form_end(form) }}
-        <a href="{{path("create_structure", {"id" : id})}}"><button>Nouvelle Franchise</button></a>
+        <a href="{{path("create_structure", {"id" : id})}}"><button>Nouvelle structure</button></a>
 
         <div>
-        {% for structure in franchise.structures %}
-            <div>
-                {{structure.infoUser.name}}
-        <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button></button></a>
-            </div>
+        {% for structure in structures %}
+        <div>{{structure.userInfo.name}}</div>
+        <div>{{structure.userInfo.email}}</div>
+        <div>
+            <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button>Editer</button></a>
+            
+        </div>
+            
         {% endfor %}
         </div>
 

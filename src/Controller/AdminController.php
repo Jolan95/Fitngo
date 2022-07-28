@@ -40,27 +40,36 @@ class AdminController extends AbstractController
             "franchises" => $franchises
         ]);
     }
-      
+     
 
     
     /**
      * @Route("/edit_franchise/{id}", name="app_edit_franchise")
      */
-    public function edit_franchise($id, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_franchise($id, userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
-        $franchise = $franchiseRepository->FindOneBy(["id" => $id]);
+        $franchise= $franchiseRepository->FindOneBy(["id" => $id]);
+        $structures = $franchise->getStructures();
+
         $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
 
         $form = $this->createForm(PermitType::class, $permit);
         $form->handleRequest($request);
-        
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
             $entityManager->persist($franchise);
             $entityManager->flush();   
         }
 
-        return $this->render("admin/franchise.html.twig", ["franchise"=>$franchise,"id" => $id, "form" => $form->createView()]);
+        return $this->render(
+            "admin/franchise.html.twig", 
+            [
+                "franchise"=>$franchise,
+                "id" => $id,
+                "structures"=>$structures,
+                "form" => $form->createView()
+            ]
+        );
     }
 
 
@@ -71,6 +80,10 @@ class AdminController extends AbstractController
     public function edit_structure($id, StructureRepository $structureRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
         $structure = $structureRepository->FindOneBy(["id" => $id]);
+        $franchise = $structure->getFranchise();
+
+        // $franchise = $franchiseRepository->findOneBy(["id" => $structure=>g])
+ 
         $permit = $permitRepository->findOneBy(["id" => $structure->getPermit()->getId()]);
 
         $form = $this->createForm(PermitType::class, $permit);
@@ -82,14 +95,15 @@ class AdminController extends AbstractController
             $entityManager->flush();   
         }
 
-        return $this->render("admin/structure.html.twig", ["id" => $id, "form" => $form->createView()]);
+
+        return $this->render("admin/structures.html.twig", ["structure" => $structure,"franchise" => $franchise ,"id" => $id, "form" => $form->createView()]);
     }
 
 
     /**
      * @Route("/create_franchise", name="app_create_franchise")
      */
-    public function dreate_franchise(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
+    public function create_franchise(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
     {
 
         $user = new User();
@@ -129,30 +143,40 @@ class AdminController extends AbstractController
                 return $this->redirect($request->getUri());  
                      
             }
-        return $this->render("security/form.html.twig", ["form" => $form->createView()]);   
+        return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
     }
+
+
 
     /**
      * @Route("/create_structure/{id}", name="create_structure")
      */
-    public function create_structure($id, Request $request, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository){
+    public function create_structure($id, Request $request, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+       
         $franchise = $franchiseRepository->findOneBy(['id' => $id]);
-
+        
         $form = $this->createForm(NewStructureType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            
+            $permit = new Permit();   
+            $permit->setPaymentOnline($franchise->getPermit()->isPaymentOnline());
+            $permit->setNewsletter($franchise->getPermit()->isNewsletter());
+            $permit->setTeamSchedule($franchise->getPermit()->isTeamSchedule());
+            $permit->setLiveChat($franchise->getPermit()->isLiveChat());
+            $permit->setVirtualTraining($franchise->getPermit()->isVirtualTraining());
+            $permit->setDetailedData($franchise->getPermit()->isDetailedData());
+            
             $structure  = new Structure();
-            $user = new User;
-            $permit = new Permit;   
-            $permit->setOptions(false);
-
             $structure->setPermit($permit);
             $structure->setFranchise($franchise);
             $structure->setIsActive(false);
 
+            /* fetch form datas */
             $name = $form->getData()->getName();
             $email = $form->getData()->getEmail();
-
+            
+            $user = new User();
             $user->setName($name);
             $user->setEmail($email);
             $user->setRoles(["ROLE_STRUCTURE"]);
@@ -168,6 +192,6 @@ class AdminController extends AbstractController
 
         }
         
-        return $this->render("security/form.html.twig", ["form" => $form->createView()]);
+        return $this->render("security/creation-structure.html.twig", ["form" => $form->createView()]);
     }
 }
