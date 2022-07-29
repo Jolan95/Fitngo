@@ -3,18 +3,19 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+
+
     <div>{{franchise.userInfo.name}}</div>
     <div>{{structure.userInfo.id}}</div>
     <div>{{structure.userInfo.email}}</div>
     <div>{{structure.userInfo.name}}</div>
 
+
+
+
             {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button type="submit">Enregistrer les modifications</button>
+        <button type="submit" class="btn">Enregistrer les modifications</button>
         {{ form_end(form) }}
 
 

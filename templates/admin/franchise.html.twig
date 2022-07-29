@@ -9,19 +9,23 @@
 </style>
 
 <div class="example-wrapper">
+            {{ form_start(form2) }}
+        {{ form_widget(form2) }}
+        <button type="submit" class="btn">valider</button>
+        {{ form_end(form2) }}
     {{id}}
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button type="submit">Enregistrer les modifications</button>
+        <button class="btn" type="submit">Enregistrer les modifications</button>
         {{ form_end(form) }}
-        <a href="{{path("create_structure", {"id" : id})}}"><button>Nouvelle structure</button></a>
+        <a href="{{path("create_structure", {"id" : id})}}"><button class="btn">Nouvelle structure</button></a>
 
         <div>
         {% for structure in structures %}
         <div>{{structure.userInfo.name}}</div>
         <div>{{structure.userInfo.email}}</div>
         <div>
-            <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button>Editer</button></a>
+            <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button class="btn">Editer</button></a>
             
         </div>
             

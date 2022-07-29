@@ -1,0 +1,40 @@
+body{
+    background-color : #30542f;
+    color : white;
+}
+nav{
+    background-color : rgb(30,53,47);
+    height: 140px;
+}
+nav img{
+    height : 100%;
+    width : auto;
+    margin-left  :20px;
+}
+.box-wrapper{
+    border : 1px solid white;
+    background-color: white;
+    color : black;
+    border-radius: 12Px;
+    height : 200px;
+    width : 100%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    font-size : 19px; 
+}
+.box-inactive{
+    border : 1px solid rgb(170, 170, 170);
+    background-color: rgb(177, 177, 177);
+}
+.green{
+    color : rgb(1, 128, 1);
+    font-weight: bold;
+}
+.red{
+    color : rgb(128, 1, 16);
+    font-weight: bold;
+}
+.full-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

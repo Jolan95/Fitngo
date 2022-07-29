@@ -3,20 +3,27 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
+{% include 'includes/navigation.html.twig' %}
+<div class="container">
+    <div class="row">
 {% for franchise in franchises %}
-    <div>{{franchise.userInfo.name}}</div>
-    {{franchise.userInfo.email}}
-    <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button>Editer</button></a>
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center p-4">
+        <div class="box-wrapper {{ franchise.isActive == true ? '' :'box-inactive' }} p-2">
+            <h2 class="text-center">{{franchise.userInfo.name}}</h2>
+            <div>ID : {{franchise.userInfo.id}}</div>
+            <div>email : {{franchise.userInfo.email}}</div>
+            {% if franchise.isActive == true %}
+            <div class="green">Actif</div>
+            {% else %}
+            <div class="red">Inactif</div>
+            {% endif %}
+            <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button class="btn btn-light">Editer</button></a>
+        </div>
+    </div>
 {% endfor %}
-
-<div>
-<a href="{{path("app_create_franchise")}}"><button>Nouvelle franchise</button></a>
+    </div>
 </div>
+
 
 
 {% endblock %}

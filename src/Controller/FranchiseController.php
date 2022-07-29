@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 
+
 /**
  * @Route("/franchise_read")
  * @IsGranted("ROLE_FRANCHISE")

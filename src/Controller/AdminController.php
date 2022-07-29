@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Form\NewFranchiseType;
 use App\Form\NewStructureType;
+use App\Form\IsActiveType;
 use App\Form\PermitType;
 use App\Repository\UserRepository;
 use App\Repository\FranchiseRepository;
@@ -31,9 +32,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="app_admin")
      */
-    public function index(FranchiseRepository $franchiseRepository): Response
+    public function index(FranchiseRepository $franchiseRepository, Request $request, ManagerRegistry $manager): Response
     {      
         $franchises = $franchiseRepository->findAll();
+        
+
 
 
         return $this->render('admin/index.html.twig', [
@@ -61,13 +64,22 @@ class AdminController extends AbstractController
             $entityManager->flush();   
         }
 
+        $form2 = $this->createForm(isActiveType::class, $franchise);
+        $form2->handleRequest($request);
+        if($form2->isSubmitted() && $form2->isValid()){
+            $entityManager = $manager->getManager();
+            $entityManager->persist($franchise);
+            $entityManager->flush();   
+        }
+
         return $this->render(
             "admin/franchise.html.twig", 
             [
                 "franchise"=>$franchise,
                 "id" => $id,
                 "structures"=>$structures,
-                "form" => $form->createView()
+                "form" => $form->createView(),
+                "form2" => $form2->createView()
             ]
         );
     }
