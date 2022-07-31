@@ -3,20 +3,41 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-
-
-    <div>{{franchise.userInfo.name}}</div>
-    <div>{{structure.userInfo.id}}</div>
-    <div>{{structure.userInfo.email}}</div>
-    <div>{{structure.userInfo.name}}</div>
-
-
-
-
+{% embed 'includes/navigation.html.twig' %}
+{% endembed %}
+<div class="mt-3 container-fluid">
+    <div class='d-flex justify-content-between'> 
+        <a href="{{path("app_edit_franchise", {"id" : franchise.id})}}">
+            <button class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+             Retour
+            </button>
+        </a>
+        <h2> {{structure.userInfo.name}} ({{franchise.userInfo.name}})</h2>
+        <div >
+            {% if franchise.isActive == true %}
+            Active
+            {% else %}
+            Inactive
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="box-wrapper box-wrapper-big ">
+        <div>ID : {{structure.userInfo.id}}</div>
+        <div>Email : {{structure.userInfo.email}}</div>
+        <div>
             {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn">Enregistrer les modifications</button>
-        {{ form_end(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn">Enregistrer les modifications</button>
+            {{ form_end(form) }}
+        </div>
+    </div>    
+</div>
+
 
 
 

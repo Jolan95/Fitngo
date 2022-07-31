@@ -13,7 +13,8 @@ class IsActiveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isActive', CheckboxType::class, ["required" => false])
+            ->add('isActive', CheckboxType::class, [
+                 "required" => false])
         ;
     }
 

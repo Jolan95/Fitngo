@@ -35,9 +35,6 @@ class AdminController extends AbstractController
     public function index(FranchiseRepository $franchiseRepository, Request $request, ManagerRegistry $manager): Response
     {      
         $franchises = $franchiseRepository->findAll();
-        
-
-
 
         return $this->render('admin/index.html.twig', [
             "franchises" => $franchises
@@ -83,8 +80,6 @@ class AdminController extends AbstractController
             ]
         );
     }
-
-
 
     /**
      * @Route("/edit_structure/{id}", name="app_edit_structure")

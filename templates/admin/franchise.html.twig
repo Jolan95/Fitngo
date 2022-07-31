@@ -3,34 +3,107 @@
 {% block title %}Hello FranchiseController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% embed 'includes/navigation.html.twig' %}
+    {% block additionalItem %}
+        <a href="{{path("create_structure", {"id" : franchise.id})}}">
+            <button class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg> Structure
+            </button>
+        </a>
+    {% endblock %}
+{% endembed %}
 
-<div class="example-wrapper">
-            {{ form_start(form2) }}
-        {{ form_widget(form2) }}
-        <button type="submit" class="btn">valider</button>
-        {{ form_end(form2) }}
-    {{id}}
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn" type="submit">Enregistrer les modifications</button>
-        {{ form_end(form) }}
-        <a href="{{path("create_structure", {"id" : id})}}"><button class="btn">Nouvelle structure</button></a>
-
+<div class="container-fluid mt-3">
+    <div class="d-flex justify-content-between">
+        <a href="{{path("app_admin")}}">
+            <button class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+             Retour
+            </button>
+        </a>
         <div>
-        {% for structure in structures %}
-        <div>{{structure.userInfo.name}}</div>
-        <div>{{structure.userInfo.email}}</div>
+            <h2>
+                {{franchise.userInfo.name}}
+            </h2>    
+        </div>
         <div>
-            <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button class="btn">Editer</button></a>
-            
+            <div >
+                {% if franchise.isActive == true %}
+                Active
+                {% else %}
+                Inactive
+                {% endif %}
+            </div>    
         </div>
-            
-        {% endfor %}
-        </div>
-
+    </div>    
 </div>
+
+<div class="container">
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex">
+            <div>
+                <button class="btn">
+                    Toutes
+                </button>
+            </div>
+            <div>
+                <button class="btn">
+                    Actives
+                </button>
+            </div>    
+            <div>
+                <button class="btn">
+                    Inactives
+                </button>
+            </div>
+        </div>    
+        <form class="form-inline d-flex my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <div class="row">
+                    {% for structure in structures %}
+                    <div class="col-6">
+                        <div class="box-wrapper  {{ structure.isActive == true ? '' :'box-inactive' }} p-2 mb-4">
+                            <h3 class="text-center">{{structure.userInfo.name}}</h3>
+                            <div>ID : {{structure.id}}</div>
+                            <div>{{structure.userInfo.email}}</div>
+                                {% if structure.isActive == true %}
+                                    <div class="green">Actif</div>
+                                    {% else %}
+                                    <div class="red">Inactif</div>
+                                {% endif %}
+                            <div>
+                                <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button class="btn btn-success">Editer</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div> 
+            <div class="col-3">
+                <div class="box-wrapper box-wrapper-big">
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-submit" type="submit">Enregistrer les modifications</button>
+                {{ form_end(form) }}
+                {{ form_start(form2) }}
+                    {{ form_row(form2.isActive)}}
+                {{ form_end(form2) }}
+                </div>
+            </div>
+        </div> 
+        <a href="{{path("create_structure", {"id" : id})}}"><button class="btn">Nouvelle structure</button></a>
+    </div>
+</div>     
+
 {% endblock %}
