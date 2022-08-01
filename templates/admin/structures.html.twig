@@ -2,6 +2,10 @@
 
 {% block title %}Hello AdminController!{% endblock %}
 
+{% block javascripts %}
+ {{ encore_entry_script_tags('structure') }}
+{% endblock %}
+
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
 {% endembed %}
@@ -17,7 +21,7 @@
         </a>
         <h2 > {{structure.userInfo.name}} ({{franchise.userInfo.name}})</h2>
         <div >
-            {% if franchise.isActive == true %}
+            {% if structure.isActive == true %}
             Active
             {% else %}
             Inactive
@@ -30,12 +34,30 @@
         <div>ID : {{structure.userInfo.id}}</div>
         <div>Email : {{structure.userInfo.email}}</div>
         <div>
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'id': "form_edit_permit"}})}}
             {{ form_widget(form) }}
-            <button id="button-submit" type="submit" class="btn btn-warning">Enregistrer les modifications</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" id="modal" disabled data-target="#permitModal">
+                Enregistrer les modifications
+            </button>
             {{ form_end(form) }}
         </div>
     </div>    
+</div>
+<div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5>Modifications permissions</h5>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sûr de vouloir enregistrer les modifications?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-close">Annuler</button>
+        <button  type="submit" form="form_edit_permit" class="btn btn-success">Enregistrer les Modifications</button> 
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

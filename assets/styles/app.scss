@@ -1,3 +1,6 @@
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+
 $nav-color : #1e352f;
 $bg-color : #30542f;
 
@@ -56,4 +59,7 @@ nav img{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.modal{
+    color : black
 }

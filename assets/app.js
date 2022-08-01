@@ -13,9 +13,5 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
-
-$(document).ready(function() {
-    console.log($("#is_active_isActive"))
-});
-
- 
+import * as bootstrap from 'bootstrap'
+import { Tooltip, Toast, Popover } from 'bootstrap'

@@ -2,6 +2,12 @@
 
 {% block title %}Hello FranchiseController!{% endblock %}
 
+
+{% block javascripts %}
+ {{ encore_entry_script_tags('structure') }}
+{% endblock %}
+
+
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
     {% block additionalItem %}
@@ -92,15 +98,33 @@
             </div> 
             <div class="col-3">
                 <div class="box-wrapper box-wrapper-big">
-                {{ form_start(form) }}
+                {{ form_start(form, {'attr': {'id': "form_edit_permit"}}) }}
                     {{ form_widget(form) }}
-                    <button class="btn btn-warning" type="submit">Enregistrer les modifications</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" id="modal" disabled data-target="#permitModal">
+                        Enregistrer les modifications
+                    </button>
                 {{ form_end(form) }}
                 </div>
             </div>
         </div> 
         <a href="{{path("create_structure", {"id" : id})}}"><button class="btn">Nouvelle structure</button></a>
     </div>
-</div>     
+</div>  
+<div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5>Modifications permissions</h5>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sûr de vouloir enregistrer les modifications?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-close">Annuler</button>
+        <button  type="submit" form="form_edit_permit" class="btn btn-success">Enregistrer les Modifications</button> 
+      </div>
+    </div>
+  </div>
+</div>   
 
 {% endblock %}
