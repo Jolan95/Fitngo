@@ -3,7 +3,7 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block javascripts %}
- {{ encore_entry_script_tags('structure') }}
+ {{ encore_entry_script_tags('modal') }}
 {% endblock %}
 
 {% block body %}
@@ -27,6 +27,11 @@
             Inactive
             {% endif %}
         </div>
+        <div>
+          <button class="btn btn-dark" id="remove-structure">
+            Supprimer cette structure
+          </button>
+        </div>
     </div>
 </div>
 <div class="container">
@@ -43,6 +48,9 @@
         </div>
     </div>    
 </div>
+
+
+{# modal handle permit #}
 <div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -59,5 +67,23 @@
     </div>
   </div>
 </div>
+
+{# modal remove structure #}
+<div class="modal fade" id="remove-structure-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5>Suppression Structure</h5>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sûr de vouloir supprimer la structure {{structure.userInfo.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="remove-structure-close">Annuler</button>
+        <a href="{{path("remove_structure", {"id" : structure.id})}}"><button class="btn btn-dark">Supprimer</button></a>
+      </div>
+    </div>
+  </div>
+</div>  
 
 {% endblock %}

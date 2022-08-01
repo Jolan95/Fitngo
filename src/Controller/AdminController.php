@@ -197,4 +197,40 @@ class AdminController extends AbstractController
         
         return $this->render("security/creation-structure.html.twig", ["form" => $form->createView()]);
     }
+
+
+    /**
+     * @Route("/remove_franchise/{id}", name="remove_franchise")
+     */
+    public function remove_franchise($id, Request $request, UserRepository $userRepository,  franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+       
+        $user = $userRepository->findOneBy(['id' => $id]);
+        
+        $entityManager = $manager->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();   
+        $this->addFlash('success', 'La franchise a bien été supprimé.');
+
+        
+        return $this->redirectToRoute('app_admin');
+    }
+
+    /**
+     * @Route("/remove_structure/{id}", name="remove_structure")
+     */
+    public function remove_structure($id, Request $request,StructureRepository $structureRepository, UserRepository $userRepository,  franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+       
+        $structure = $structureRepository->findOneBy(["id" => $id]);
+        $franchise = $structure->getFranchise()->getId();
+        $user = $structure->getUserInfo();
+        
+        $entityManager = $manager->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+        $this->addFlash('success', 'La structure a bien été supprimé.');
+           
+
+        
+        return $this->redirectToRoute('app_edit_franchise', ["id" => $franchise]);
+    }
 }

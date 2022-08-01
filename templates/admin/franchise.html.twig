@@ -4,7 +4,7 @@
 
 
 {% block javascripts %}
- {{ encore_entry_script_tags('structure') }}
+ {{ encore_entry_script_tags('modal') }}
 {% endblock %}
 
 
@@ -23,6 +23,11 @@
 {% endembed %}
 
 <div class="container-fluid mt-3">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-info m-3">
+            <div>{{ message }}</div>
+        </div>
+    {% endfor %} 
     <div class="d-flex justify-content-between">
         <a href="{{path("app_admin")}}">
             <button class="btn btn-danger">
@@ -32,18 +37,28 @@
              Retour
             </button>
         </a>
-        <div>
-            <h2>
-                {{franchise.userInfo.name}}
+        <div class="d-flex align-items-center">
+            <h2 class="me-2">
+                {{franchise.userInfo.name}} 
             </h2>    
+            <div>
+                [
+                {% if franchise.isActive == true %}
+                <span class="green">Active</span>
+                {% else %}
+                <span class="red">Inactive</span>
+                {% endif %}
+                ]
+            </div>    
         </div>
         <div>
             <div >
-                {% if franchise.isActive == true %}
-                Active
-                {% else %}
-                Inactive
-                {% endif %}
+                <button class="btn btn-dark" id="remove-franchise">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                    </svg>
+                    Supprimer la franchise
+                </button>
             </div>    
         </div>
     </div>    
@@ -88,8 +103,13 @@
                                     {% else %}
                                     <div class="red">Inactif</div>
                                 {% endif %}
-                            <div>
+                            <div class="d-flex justify-content-between">
                                 <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button class="btn btn-success">Editer</button></a>
+                                {# <a href="{{path("")}}"><button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                                    </svg>
+                                </button></a> #}
                             </div>
                         </div>
                     </div>
@@ -107,9 +127,12 @@
                 </div>
             </div>
         </div> 
-        <a href="{{path("create_structure", {"id" : id})}}"><button class="btn">Nouvelle structure</button></a>
     </div>
 </div>  
+<div class="d-flex justify-content-center">
+
+</div>
+{# modal modification #}
 <div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -122,6 +145,23 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-close">Annuler</button>
         <button  type="submit" form="form_edit_permit" class="btn btn-success">Enregistrer les Modifications</button> 
+      </div>
+    </div>
+  </div>
+</div>   
+{# Modal remove #}
+<div class="modal fade" id="remove-franchise-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5>Suppression franchise</h5>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sûr de vouloir supprimer la franchise {{franchise.userInfo.name}} et ses structures ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-remove-close">Annuler</button>
+        <a href="{{path("remove_franchise", {"id" : franchise.userInfo.id})}}"><button class="btn btn-dark">Supprimer</button></a>
       </div>
     </div>
   </div>
