@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Franchise;
+use App\Form\PermitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,14 +15,18 @@ class IsActiveType extends AbstractType
     {
         $builder
             ->add('isActive', CheckboxType::class, [
-                 "required" => false])
+                 "required" => false,
+                 "label" => "Actif"])
+            ->add("Permit", PermitType::class, [
+                "label" => "Permissions"
+            ])       
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Franchise::class,
+           
         ]);
     }
 }

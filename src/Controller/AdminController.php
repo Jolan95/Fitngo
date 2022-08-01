@@ -53,7 +53,7 @@ class AdminController extends AbstractController
 
         $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
 
-        $form = $this->createForm(PermitType::class, $permit);
+        $form = $this->createForm(IsActiveType::class, $franchise);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
@@ -61,13 +61,6 @@ class AdminController extends AbstractController
             $entityManager->flush();   
         }
 
-        $form2 = $this->createForm(isActiveType::class, $franchise);
-        $form2->handleRequest($request);
-        if($form2->isSubmitted() && $form2->isValid()){
-            $entityManager = $manager->getManager();
-            $entityManager->persist($franchise);
-            $entityManager->flush();   
-        }
 
         return $this->render(
             "admin/franchise.html.twig", 
@@ -75,8 +68,7 @@ class AdminController extends AbstractController
                 "franchise"=>$franchise,
                 "id" => $id,
                 "structures"=>$structures,
-                "form" => $form->createView(),
-                "form2" => $form2->createView()
+                "form" => $form->createView()
             ]
         );
     }
@@ -84,10 +76,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_structure/{id}", name="app_edit_structure")
      */
-    public function edit_structure($id, StructureRepository $structureRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_structure($id, StructureRepository $structureRepository, IsActiveType $isActiveType , ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
+        
 
         // $franchise = $franchiseRepository->findOneBy(["id" => $structure=>g])
  
@@ -95,12 +88,15 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(PermitType::class, $permit);
         $form->handleRequest($request);
-        
+
+        $form = $this->createForm(IsActiveType::class, $structure);
+        $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
             $entityManager->persist($structure);
             $entityManager->flush();   
         }
+
 
 
         return $this->render("admin/structures.html.twig", ["structure" => $structure,"franchise" => $franchise ,"id" => $id, "form" => $form->createView()]);
