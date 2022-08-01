@@ -1,0 +1,59 @@
+$nav-color : #1e352f;
+$bg-color : #30542f;
+
+
+
+
+
+body{
+    background-color : $bg-color;
+    color : white;
+}
+nav{
+    background-color : $nav-color;
+    height: 140px;   
+}
+.btn{
+    color : white;
+}
+nav img{
+    height : 100%;
+    width : auto;
+    margin-left  :20px;
+}
+.box-wrapper{
+    border : 1px solid white;
+    background-color: white;
+    color : black;
+    border-radius: 12px;
+    height : 220px;
+    width : 100%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    font-size : 19px; 
+    padding : 20px;
+    display : flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.box-wrapper-big{
+    height : auto;
+    width : 100%;
+    max-width : 500px;
+}
+.box-inactive{
+    border : 1px solid rgb(170, 170, 170);
+    background-color: rgb(177, 177, 177);
+}
+.green{
+    color : rgb(1, 128, 1);
+    font-weight: bold;
+}
+.red{
+    color : rgb(128, 1, 16);
+    font-weight: bold;
+}
+.full-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
