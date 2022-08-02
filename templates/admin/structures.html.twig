@@ -19,13 +19,17 @@
              Retour
             </button>
         </a>
-        <h2 > {{structure.userInfo.name}} ({{franchise.userInfo.name}})</h2>
-        <div >
-            {% if structure.isActive == true %}
-            Active
-            {% else %}
-            Inactive
-            {% endif %}
+        <div class="d-flex align-items-center">
+          <h2>{{franchise.userInfo.name}} - {{structure.userInfo.name}}</h2> 
+          <div>
+              [
+              {% if structure.isActive == true %}
+              <span class="green">Actif</span>
+              {% else %}
+              <span class="red">Inactif</span>
+              {% endif %}
+              ]
+          </div>
         </div>
         <div>
           <button class="btn btn-dark" id="remove-structure">

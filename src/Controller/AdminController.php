@@ -142,7 +142,7 @@ class AdminController extends AbstractController
                 $entityManager = $manager->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();              
-                $this->addFlash('success', 'La nouvelle entité a bien été enregistré.');
+                $this->addFlash('success', 'La franchise '.$name.' a bien été enregistré.');
                 return $this->redirect($request->getUri());  
                      
             }
@@ -191,11 +191,11 @@ class AdminController extends AbstractController
             $entityManager = $manager->getManager();
             $entityManager->persist($user);
             $entityManager->flush();   
-            $this->addFlash("success", "Structure créée");     
+            $this->addFlash("success", "La structure ".$name." a été créée");     
 
         }
         
-        return $this->render("security/creation-structure.html.twig", ["form" => $form->createView()]);
+        return $this->render("security/creation-structure.html.twig", ["form" => $form->createView(), "franchise" => $franchise]);
     }
 
 
@@ -209,7 +209,7 @@ class AdminController extends AbstractController
         $entityManager = $manager->getManager();
         $entityManager->remove($user);
         $entityManager->flush();   
-        $this->addFlash('success', 'La franchise a bien été supprimé.');
+        $this->addFlash('success', 'La franchise '.$user->getName().' a bien été supprimé.');
 
         
         return $this->redirectToRoute('app_admin');
@@ -227,7 +227,7 @@ class AdminController extends AbstractController
         $entityManager = $manager->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
-        $this->addFlash('success', 'La structure a bien été supprimé.');
+        $this->addFlash('success', 'La structure '.$user->getName().' a bien été supprimé.');
            
 
         
