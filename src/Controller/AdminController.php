@@ -229,7 +229,7 @@ class AdminController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', 'La structure '.$user->getName().' a bien été supprimé.');
            
-
+ 
         
         return $this->redirectToRoute('app_edit_franchise', ["id" => $franchise]);
     }
