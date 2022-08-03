@@ -18,6 +18,7 @@ class SecurityController extends AbstractController
     
     {
         if ($this->getUser()) {
+            
             $user = $this->getUser();
             $roles = $user->getRoles();
             if(in_array("ROLE_ADMIN", $roles)){

@@ -14,4 +14,66 @@
     </div>
     {% endfor %}
 
+    Permissions par défaut : 
+        {% if (permit.paymentOnline) %}
+        <div class="green">
+            - Payement en ligne
+        </div>
+    {% else %}
+        <div class="red">
+            - Payement en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.paymentOnline) %}
+        <div class="green">
+            - Payement en ligne
+        </div>
+    {% else %}
+        <div class="red">
+            - Payement en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.teamSchedule) %}
+        <div class="green">
+           - Gestion planning équipe
+        </div>
+    {% else %}
+        <div class="red">
+           - Gestion planning équipe
+        </div>
+    {% endif %}
+
+    {% if (permit.liveChat) %}
+        <div class="green">
+            - Chat en ligne
+        </div>
+    {% else %}
+        <div class="red">
+           - Chat en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.virtualTraining) %}
+        <div class="green">
+            - Entrainements virtuels
+        </div>
+    {% else %}
+        <div class="red">
+            - Entrainements virtuels
+        </div>
+    {% endif %}
+
+    {% if (permit.detailedData) %}
+        <div class="green">
+           - Données de l'application
+        </div>
+    {% else %}
+        <div class="red">
+            - Données de l'application
+        </div>
+    {% endif %}
+
+
 {% endblock %}

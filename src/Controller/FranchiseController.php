@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Repository\StructureRepository;
 use App\Repository\FranchiseRepository;
+use App\Repository\PermitRepository;
 use App\Repository\UserRepository;
 use Exception;
 
@@ -23,9 +24,11 @@ class FranchiseController extends AbstractController
 
             $user = $userRepository->findOneBy(["url" => $token]);
             $franchise = $user->getFranchise();   
+            $permit = $franchise->getPermit();
             
             return $this->render('read-only/franchise.html.twig', [
                 'franchise' => $franchise,
+                "permit" => $permit
             ]);
         } else{
             // error if the franchise doesn't belong to the user
@@ -36,7 +39,7 @@ class FranchiseController extends AbstractController
      * 
      * @Route("/structure/{token}", name="read_structure")
      */
-    public function structure($token, userRepository $userRepository, StructureRepository $structureRepository, FranchiseRepository $franchiseRepository): Response
+    public function structure($token, PermitRepository $permitRepository, userRepository $userRepository, StructureRepository $structureRepository, FranchiseRepository $franchiseRepository): Response
     {
         $user = $this->getUser();
         $role = $user->getRoles();
@@ -46,6 +49,9 @@ class FranchiseController extends AbstractController
         $userToken = $userRepository->findOneBy(["url" => $token]);
         // structure of the token
         $structure = $structureRepository->findOneBy(["id" => $userToken->getStructure()->getId()]);
+        $permit = $structure->getPermit();
+        
+        
         
         
         
@@ -55,6 +61,7 @@ class FranchiseController extends AbstractController
             if($user->getUrl() === $token){   
                 return $this->render('read-only/structure.html.twig', [
                     'structure' => $user->getStructure(),
+                    'permit' => $permit
                 ]); 
             }
             throw new Exception ("Cette page ne correspond pas à votre structure", 500);
@@ -65,6 +72,7 @@ class FranchiseController extends AbstractController
                 return $this->render('read-only/structure.html.twig', [
                     'structure' => $structure,
                     "url" => $url,
+                    "permit" => $permit
                 ]);
                 //error if structure doesn't belong to the franchise user
                 throw new Exception ("Cette structure ne correspond pas à votre franchise", 500);

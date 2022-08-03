@@ -3,11 +3,80 @@
 {% block title %}Hello FranchiseController!{% endblock %}
 
 {% block body %}
-{% include 'includes/navigation.html.twig' %}
-{% if url is defined %}
-<a href="{{path("read_franchise", {"token" : url})}}"><button class="btn btn-info">< Ma Franchise</button></a>
-{% endif %}
+    {% include 'includes/navigation.html.twig' %}
 
-    {{structure.userInfo.name}}    
+    {% if url is defined %}
+        <a href="{{path("read_franchise", {"token" : url})}}"><button class="btn btn-info">< Ma Franchise</button></a>
+    {% endif %}
+        
+    {% if (permit.newsletter) %}
+        <div class="green">
+            - Newsletter
+        </div>
+    {% else %}
+        <div class="red">
+            - Newsletter
+        </div>
+    {% endif %}
+
+    {% if (permit.paymentOnline) %}
+        <div class="green">
+            - Payement en ligne
+        </div>
+    {% else %}
+        <div class="red">
+            - Payement en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.paymentOnline) %}
+        <div class="green">
+            - Payement en ligne
+        </div>
+    {% else %}
+        <div class="red">
+            - Payement en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.teamSchedule) %}
+        <div class="green">
+           - Gestion planning équipe
+        </div>
+    {% else %}
+        <div class="red">
+           - Gestion planning équipe
+        </div>
+    {% endif %}
+
+    {% if (permit.liveChat) %}
+        <div class="green">
+            - Chat en ligne
+        </div>
+    {% else %}
+        <div class="red">
+           - Chat en ligne
+        </div>
+    {% endif %}
+
+    {% if (permit.virtualTraining) %}
+        <div class="green">
+            - Entrainements virtuels
+        </div>
+    {% else %}
+        <div class="red">
+            - Entrainements virtuels
+        </div>
+    {% endif %}
+
+    {% if (permit.detailedData) %}
+        <div class="green">
+           - Données de l'application
+        </div>
+    {% else %}
+        <div class="red">
+            - Données de l'application
+        </div>
+    {% endif %}
 
 {% endblock %}
