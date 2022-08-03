@@ -8,11 +8,13 @@
 
     {% for structure in franchise.structures %}
     <div>
-    
     {{structure.userInfo.name}}
-    <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">edit</a>
+        {% if structure.isActive %}
+        <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">voir</a>
+        {% endif %}
     </div>
     {% endfor %}
+
 
     Permissions par défaut : 
         {% if (permit.paymentOnline) %}
@@ -74,6 +76,5 @@
             - Données de l'application
         </div>
     {% endif %}
-
 
 {% endblock %}
