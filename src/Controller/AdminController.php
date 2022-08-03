@@ -134,6 +134,9 @@ class AdminController extends AbstractController
                 /** Generate token password */
                 // $bytes = openssl_random_pseudo_bytes(8);
                 // $password = bin2hex($bytes);
+                $bytes = openssl_random_pseudo_bytes(6);
+                $token = bin2hex($bytes);
+                $user->setUrl($token);
                 $password = "admin";
                 $hashedPassword = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($hashedPassword);
@@ -187,6 +190,10 @@ class AdminController extends AbstractController
             $password = "admin";
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);
+
+            $bytes = openssl_random_pseudo_bytes(6);
+            $token = bin2hex($bytes);
+            $user->setUrl($token);
 
             $entityManager = $manager->getManager();
             $entityManager->persist($user);

@@ -11,21 +11,21 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
 
-    
-    
-    #[Route(path: '/login', name: 'app_login')]
+
+    #[Route(path: '/', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
 
     
     {
         if ($this->getUser()) {
-            $roles = $this->getUser()->getRoles();
+            $user = $this->getUser();
+            $roles = $user->getRoles();
             if(in_array("ROLE_ADMIN", $roles)){
                 return $this->redirectToRoute('app_admin');
-            } else if (in_array("ROLE_STRUCTRUE", $roles)){
-                return $this->redirectToRoute("read_franchise");
+            } else if (in_array("ROLE_STRUCTURE", $roles)){
+                return $this->redirectToRoute('read_structure', ["token" =>$user->getUrl()]);
             } else{
-                return $this->redirectToRoute('read_structure');
+                return $this->redirectToRoute("read_franchise", ["token" => $user->getUrl()]);
             }
             
          }

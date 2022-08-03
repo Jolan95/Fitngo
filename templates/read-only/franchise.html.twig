@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FranchiseController!{% endblock %}
+
+{% block body %}
+{% include 'includes/navigation.html.twig' %}
+    {{franchise.userInfo.name}}
+
+    {% for structure in franchise.structures %}
+    <div>
+    
+    {{structure.userInfo.name}}
+    <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">edit</a>
+    </div>
+    {% endfor %}
+
+{% endblock %}

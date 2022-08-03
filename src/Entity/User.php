@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\Table;
 
 /**
  * @UniqueEntity(fields={"email"},message="Cet email existe déjà !")
- * @UniqueEntity(fields={"name"},message="Ce nom est déjà réservé.")
+ * @UniqueEntity(fields={"name"},message="Ce nom est déjà utilisé.")
 */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -47,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, unique : true)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url = null;
 
     public function getId(): ?int
     {
@@ -150,6 +153,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }
