@@ -26,6 +26,6 @@ final class Version20220804112158 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `user` CHANGE email email VARCHAR(180) NOT NULL, CHANGE name name VARCHAR(255) NOT NULL, CHANGE url url VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE `user` CHANGE email email VARCHAR(180) NOT NULL, CHANGE name name VARCHAR(191) NOT NULL, CHANGE url url VARCHAR(191) DEFAULT NULL');
     }
 }
