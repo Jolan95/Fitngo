@@ -8,8 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FranchiseRepository::class)]
 
+
+
+#[ORM\Entity(repositoryClass: FranchiseRepository::class)]
 class Franchise
 {
     #[ORM\Id]
