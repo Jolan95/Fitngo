@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         
     
 
-    #[ORM\Column(length: 191, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -45,10 +45,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(inversedBy: 'user_info', cascade: ['persist', 'remove'])]
     private ?Structure $Structure = null;
 
-    #[ORM\Column(length: 191, unique : true)]
+    #[ORM\Column(length: 255, unique : true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 191, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
 
     public function getId(): ?int
