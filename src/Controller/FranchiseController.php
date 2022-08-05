@@ -7,6 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Permit;
+use App\Entity\Franchise;
+use App\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Repository\StructureRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\PermitRepository;
@@ -100,5 +106,32 @@ class FranchiseController extends AbstractController
         throw new Exception("Cette page est réservé aux franchises et structure", 500);
         
     }
-    
+
+    /**
+     * @Route("/create_admin", name="create")
+     */
+    public function create_admin(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository){
+        
+        $user = new User();
+
+                $user->setEmail("admin@fitngo.fr");
+                $user->setName("Admin");
+                $user->setRoles(["ROLE_ADMIN"]);
+                /** Generate token password */
+                // $bytes = openssl_random_pseudo_bytes(8);
+                // $password = bin2hex($bytes);
+
+                $password = "admin";
+                $hashedPassword = $passwordHasher->hashPassword($user, $password);
+                $user->setPassword($hashedPassword);
+
+                /* flushing datas in db */
+                $entityManager = $manager->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();              
+                $this->addFlash('success', 'LAdmin a bien été enregistré.');
+ 
+                     
+        return new Response("page trouvé");
+    }
 }
