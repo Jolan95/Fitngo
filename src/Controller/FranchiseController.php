@@ -71,7 +71,7 @@ class FranchiseController extends AbstractController
         $franchise = $structure ->getFranchise();
 
         // error if structure or structure's franchise is not valid
-        if(!$structure->isIsActive() || $structure->isIsActive()){
+        if(!$structure->isIsActive() || !$structure->isIsActive()){
             throw new Exception("Cette structure est actuellement désactivé.", 403);
         }
 
@@ -107,31 +107,4 @@ class FranchiseController extends AbstractController
         
     }
 
-    /**
-     * @Route("/create_admin", name="create")
-     */
-    public function create_admin(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository){
-        
-        $user = new User();
-
-                $user->setEmail("admin@fitngo.fr");
-                $user->setName("Admin");
-                $user->setRoles(["ROLE_ADMIN"]);
-                /** Generate token password */
-                // $bytes = openssl_random_pseudo_bytes(8);
-                // $password = bin2hex($bytes);
-
-                $password = "admin";
-                $hashedPassword = $passwordHasher->hashPassword($user, $password);
-                $user->setPassword($hashedPassword);
-
-                /* flushing datas in db */
-                $entityManager = $manager->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();              
-                $this->addFlash('success', 'LAdmin a bien été enregistré.');
- 
-                     
-        return new Response("page trouvé");
-    }
 }
