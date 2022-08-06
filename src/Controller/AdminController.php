@@ -20,7 +20,11 @@ use App\Repository\StructureRepository;
 use App\Entity\User;
 use App\Entity\Structure;
 use App\Entity\Franchise;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\FilterActiveType;
 use App\Entity\Permit;
+use App\Form\SearchByNameType;
 use App\Repository\PermitRepository;
 
 /**
@@ -32,13 +36,35 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="app_admin")
      */
-    public function index(FranchiseRepository $franchiseRepository, Request $request, ManagerRegistry $manager): Response
+    public function index(FranchiseRepository $franchiseRepository, UserRepository $userRepository,Request $request, ManagerRegistry $manager): Response
     {      
         $franchises = $franchiseRepository->findAll();
 
+        // $formSearch = $this->createForm(SearchByNameType::class);
+        // $formSearch->handleRequest($request);
+        
+        // if ($formSearch->isSubmitted()) { 
+        //     dd($formSearch->getData);        }
+
+        
+        $formActive = $this->createForm(FilterActiveType::class);
+        $formActive->handleRequest($request);
+
+        if($formActive->isSubmitted()){
+            $franchises = $franchiseRepository->findByFilter($formActive->getData());
+            // if($formActive->getData()["filter"] === true){
+            //     $franchises = $franchiseRepository->findBy(["isActive" => true]);
+            // } else {
+            //    $franchises = $franchiseRepository->findBy(["isActive" => false]); 
+            // }
+        }
+    
         return $this->render('admin/index.html.twig', [
-            "franchises" => $franchises
+            "franchises" => $franchises,
+            // 'form' => $formSearch->createView(),
+            'formActive' => $formActive->createView()   
         ]);
+
     }
      
 
@@ -240,4 +266,13 @@ class AdminController extends AbstractController
         
         return $this->redirectToRoute('app_edit_franchise', ["id" => $franchise]);
     }
+
+
+    public function searchBar()
+    {
+
+    }
+
+
+
 }

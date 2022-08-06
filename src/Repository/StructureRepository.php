@@ -39,6 +39,26 @@ class StructureRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByFilter($value): array
+    {
+ 
+        $query = $this->createQueryBuilder('s')
+        ->select('s', 'f')
+        ->join("s.user_info", "u");
+ 
+        if ($value["filter"] != ""){   
+             $query
+            ->andWhere('s.isActive = :val')
+  
+            ->setParameter('val', $value);
+  
+        }
+    
+     
+     return $query
+     ->getQuery()
+     ->getResult();
+    }
 //    /**
 //     * @return Structure[] Returns an array of Structure objects
 //     */

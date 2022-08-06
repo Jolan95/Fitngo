@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Franchise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+USE App\Entity\User;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @extends ServiceEntityRepository<Franchise>
@@ -42,18 +44,31 @@ class FranchiseRepository extends ServiceEntityRepository
 //    /**
 //     * @return Franchise[] Returns an array of Franchise objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function findByFilter($filter): array
+   {
+       $query = $this->createQueryBuilder('f')
+       ->select('u', 'f')
+       ->join("f.user_info", "u");
 
+       if ($filter["filter"] != ""){   
+            $query
+           ->andWhere('f.isActive = :val')
+           ->andWhere("u.name LIKE :search")
+           ->setParameter('val', $filter["filter"])
+           ->setParameter('search', "%{$filter["query"]}%");
+
+       }
+   
+    
+    return $query
+    ->getQuery()
+    ->getResult();
+   }
+
+//    SELECT * 
+//    FROM franchise
+//    JOIN user ON franchise.id = franchise_id
+//    WHERE franchise.is_active = 1 AND user.name LIKE '%Bor%'
 //    public function findOneBySomeField($value): ?Franchise
 //    {
 //        return $this->createQueryBuilder('f')
