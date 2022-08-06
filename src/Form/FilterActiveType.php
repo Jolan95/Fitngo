@@ -17,9 +17,9 @@ class FilterActiveType extends AbstractType
         $builder
             ->add('filter', ChoiceType::class, [
                 'choices' => [
-                    'Toutes' => false,
                     'Actif' => "1",
                     'Inactif' => "0",
+                    'Toutes' => false,
                 ],
             ])
             ->add('query', TextType::class, [
