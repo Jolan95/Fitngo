@@ -64,29 +64,16 @@
     </div>    
 </div>
 
-<div class="container">
-    <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex">
-            <div>
-                <button class="btn">
-                    Toutes
-                </button>
+    <div class="container">  
+        {{form_start(formActive)}}
+            <div class="d-flex justify-content-between">
+            {{form_row(formActive.filter)}}
+                <div class="d-flex">
+                {{form_row(formActive.query)}}
+                {{form_row(formActive.save)}}
+                </div>
             </div>
-            <div>
-                <button class="btn">
-                    Actif
-                </button>
-            </div>    
-            <div>
-                <button class="btn">
-                    Inactif
-                </button>
-            </div>
-        </div>    
-        <form class="form-inline d-flex my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        {{form_end(formActive)}}
     </div>
     <div class="container">
         <div class="row">

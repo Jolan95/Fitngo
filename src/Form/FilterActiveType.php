@@ -16,10 +16,11 @@ class FilterActiveType extends AbstractType
     {
         $builder
             ->add('filter', ChoiceType::class, [
+                'label' => false,
                 'choices' => [
+                    'Toutes' => false,
                     'Actif' => "1",
                     'Inactif' => "0",
-                    'Toutes' => false,
                 ],
             ])
             ->add('query', TextType::class, [
@@ -30,7 +31,7 @@ class FilterActiveType extends AbstractType
                     'placeholder' => 'Entrez un mot-clé'
                 ]
             ])
-            ->add('recherche', SubmitType::class, [
+            ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

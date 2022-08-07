@@ -2,6 +2,11 @@
 
 {% block title %}Hello AdminController!{% endblock %}
 
+{% block javascripts %}
+ {{ encore_entry_script_tags('filter_franchise') }}
+{% endblock %}
+
+
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
     {% block additionalItem %}
@@ -22,30 +27,27 @@
             <div>{{ message }}</div>
         </div>
         {% endfor %}
-    <div class="d-flex justify-content-between mb-3">
-        <div class="d-flex">
-            <div>
-                <button class="btn">
-                    Toutes
-                </button>
+    <div class="container" id="content">
+        {# {{form_start(formActive)}}
+        <div class="d-flex justify-content-between">
+        {{form_row(formActive.filter)}}
+            <div class="d-flex">
+            {{form_row(formActive.query)}}
+            {{form_row(formActive.save)}}
             </div>
-            <div>
-                <button class="btn">
-                    Actif
-                </button>
-            </div>    
-            <div>
-                <button class="btn">
-                    Inactif
-                </button>
-            </div>
-        </div>    
-            {# {{form(form)}} #}
-            {{form(formActive)}}
+        </div>
+        {{form_end(formActive)}} #}
+        <form id="filter">
+            <input type="radio" checked name="filter[]" id="all" value="">
+            <label for="all">Toutes</label>
+            <input type="radio" name="filter[]" id="actif" value="1">
+            <label for="actif">Actif</label>
+            <input type="radio" name="filter[]" id="inactif" value="0">
+            <label for="inactif">inactif</label>
+
+        </form>
     </div>
-    {# {{ render(controller(
-        'App\\Controller\\AdminController::searchBar'
- )) }} #}
+
 
     <div class="row">
 {% for franchise in franchises %}

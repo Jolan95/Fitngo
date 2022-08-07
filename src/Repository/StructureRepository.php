@@ -39,20 +39,58 @@ class StructureRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByFilter($value): array
+
+    //essai
+    public function findByFilters($filter, $id): array
     {
- 
         $query = $this->createQueryBuilder('s')
-        ->select('s', 'f')
-        ->join("s.user_info", "u");
+        // ->andWhere('s.franchise = :id')
+        // ->setParameter('id', $id)
+        ->select('u', 's', "f")
+        ->join("s.Franchise", "f")
+        ->join("s.user_info", "u")
+        ->andWhere('f.id = :id')
+        ->setParameter('id', $id);
  
-        if ($value["filter"] != ""){   
+        if ($filter["filter"] != "" ){   
              $query
-            ->andWhere('s.isActive = :val')
-  
-            ->setParameter('val', $value);
-  
-        }
+             ->setParameter('val', $filter["filter"])
+             ->andWhere('s.isActive = :val');
+         }
+         if ($filter["query"] != ""){   
+             $query
+            ->andWhere("u.name LIKE :search")
+            ->setParameter('search', "%{$filter["query"]}%");
+ 
+         }
+    
+     
+     return $query
+     ->getQuery()
+     ->getResult();
+    }
+    public function findByFilter($filter, $id): array
+    {
+        $query = $this->createQueryBuilder('s')
+        // ->andWhere('s.franchise = :id')
+        // ->setParameter('id', $id)
+        ->select('u', 's', "f")
+        ->join("s.Franchise", "f")
+        ->join("s.user_info", "u")
+        ->andWhere('f.id = :id')
+        ->setParameter('id', $id);
+ 
+        if ($filter["filter"] != "" ){   
+             $query
+             ->setParameter('val', $filter["filter"])
+             ->andWhere('s.isActive = :val');
+         }
+         if ($filter["query"] != ""){   
+             $query
+            ->andWhere("u.name LIKE :search")
+            ->setParameter('search', "%{$filter["query"]}%");
+ 
+         }
     
      
      return $query

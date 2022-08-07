@@ -36,33 +36,32 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="app_admin")
      */
-    public function index(FranchiseRepository $franchiseRepository, UserRepository $userRepository,Request $request, ManagerRegistry $manager): Response
+    public function index(FranchiseRepository $franchiseRepository, UserRepository $userRepository,Request $request, ManagerRegistry $manager)
     {      
         $franchises = $franchiseRepository->findAll();
-
-        // $formSearch = $this->createForm(SearchByNameType::class);
-        // $formSearch->handleRequest($request);
         
-        // if ($formSearch->isSubmitted()) { 
-        //     dd($formSearch->getData);        }
+        // $formActive = $this->createForm(FilterActiveType::class);
+        // $formActive->handleRequest($request);
+
+        // if($formActive->isSubmitted()){
+        //     $franchises = $franchiseRepository->findByFilter($formActive->getData());
+        // }
+        
+        $filter = $request->get("filter");
+
+        $franchises = $franchiseRepository->findByFilters($filter);
 
         
-        $formActive = $this->createForm(FilterActiveType::class);
-        $formActive->handleRequest($request);
 
-        if($formActive->isSubmitted()){
-            $franchises = $franchiseRepository->findByFilter($formActive->getData());
-            // if($formActive->getData()["filter"] === true){
-            //     $franchises = $franchiseRepository->findBy(["isActive" => true]);
-            // } else {
-            //    $franchises = $franchiseRepository->findBy(["isActive" => false]); 
-            // }
+        // check is ajax request
+        if($request->query->get("ajax")){
+            return new Response("okaay");
         }
     
         return $this->render('admin/index.html.twig', [
             "franchises" => $franchises,
             // 'form' => $formSearch->createView(),
-            'formActive' => $formActive->createView()   
+            // 'formActive' => $formActive->createView()   
         ]);
 
     }
@@ -72,10 +71,17 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_franchise/{id}", name="app_edit_franchise")
      */
-    public function edit_franchise($id, userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_franchise($id,  StructureRepository $structureRepository,userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
-        $franchise= $franchiseRepository->FindOneBy(["id" => $id]);
+        $franchise = $franchiseRepository->FindOneBy(["id" => $id]);
         $structures = $franchise->getStructures();
+
+        $formActive = $this->createForm(FilterActiveType::class);
+        $formActive->handleRequest($request);
+
+        if($formActive->isSubmitted()){
+            $structures = $structureRepository->findByFilter($formActive->getData(), $id);
+        }
 
         $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
 
@@ -94,6 +100,7 @@ class AdminController extends AbstractController
                 "franchise"=>$franchise,
                 "id" => $id,
                 "structures"=>$structures,
+                "formActive" => $formActive->createView(),
                 "form" => $form->createView()
             ]
         );
