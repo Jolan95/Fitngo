@@ -27,16 +27,7 @@
             <div>{{ message }}</div>
         </div>
         {% endfor %}
-    <div class="container" id="content">
-        {# {{form_start(formActive)}}
-        <div class="d-flex justify-content-between">
-        {{form_row(formActive.filter)}}
-            <div class="d-flex">
-            {{form_row(formActive.query)}}
-            {{form_row(formActive.save)}}
-            </div>
-        </div>
-        {{form_end(formActive)}} #}
+    <div class="container">
         <form id="filter">
             <input type="radio" checked name="filter" id="all" value="">
             <label for="all">Toutes</label>
@@ -44,17 +35,17 @@
             <label for="actif">Actif</label>
             <input type="radio" name="filter" id="inactif" value="0">
             <label for="inactif">inactif</label>
-
-            <input type="text" id="search" name="search" placeholder="chercher une structure">
             
-
+            <div class="search-box">
+              <button class="btn-search"><i class="fas fa-search">hh</i></button>
+              <input type="text" id="search" name="search" class="input-search" placeholder="chercher une structure">
+            </div>
         </form>
     </div>
-
-
-    <div class="row" id="content">
+        <div class="row" id="content">
         {% include "content/franchises.html.twig" %}
-    </div>
+        </div>
+
 </div>
 
 

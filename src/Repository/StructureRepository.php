@@ -40,58 +40,26 @@ class StructureRepository extends ServiceEntityRepository
     }
 
 
-    //essai
-    public function findByFilters($filter, $id): array
+    public function findByFilters($filter, $search,$id): array
     {
         $query = $this->createQueryBuilder('s')
-        // ->andWhere('s.franchise = :id')
-        // ->setParameter('id', $id)
         ->select('u', 's', "f")
         ->join("s.Franchise", "f")
         ->join("s.user_info", "u")
         ->andWhere('f.id = :id')
         ->setParameter('id', $id);
  
-        if ($filter["filter"] != "" ){   
-             $query
-             ->setParameter('val', $filter["filter"])
-             ->andWhere('s.isActive = :val');
-         }
-         if ($filter["query"] != ""){   
-             $query
-            ->andWhere("u.name LIKE :search")
-            ->setParameter('search', "%{$filter["query"]}%");
- 
-         }
+        if ($filter != null ){   
+            $query
+            ->setParameter('val', $filter)
+            ->andWhere('s.isActive = :val');
+        }
+        if ($search != ""){   
+            $query
+           ->andWhere("u.name LIKE :search")
+           ->setParameter('search', "{$search}%");
     
-     
-     return $query
-     ->getQuery()
-     ->getResult();
-    }
-    public function findByFilter($filter, $id): array
-    {
-        $query = $this->createQueryBuilder('s')
-        // ->andWhere('s.franchise = :id')
-        // ->setParameter('id', $id)
-        ->select('u', 's', "f")
-        ->join("s.Franchise", "f")
-        ->join("s.user_info", "u")
-        ->andWhere('f.id = :id')
-        ->setParameter('id', $id);
- 
-        if ($filter["filter"] != "" ){   
-             $query
-             ->setParameter('val', $filter["filter"])
-             ->andWhere('s.isActive = :val');
-         }
-         if ($filter["query"] != ""){   
-             $query
-            ->andWhere("u.name LIKE :search")
-            ->setParameter('search', "%{$filter["query"]}%");
- 
-         }
-    
+        }
      
      return $query
      ->getQuery()

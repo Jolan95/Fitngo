@@ -44,29 +44,7 @@ class FranchiseRepository extends ServiceEntityRepository
 //    /**
 //     * @return Franchise[] Returns an array of Franchise objects
 //     */
-   public function findByFilter($filter): array
-   {
-       $query = $this->createQueryBuilder('f')
-       ->select('u', 'f')
-       ->join("f.user_info", "u");
 
-       if ($filter["filter"] != "" ){   
-            $query
-            ->setParameter('val', $filter["filter"])
-            ->andWhere('f.isActive = :val');
-        }
-        if ($filter["query"] != ""){   
-            $query
-           ->andWhere("u.name LIKE :search")
-           ->setParameter('search', "%{$filter["query"]}%");
-
-        }
-        
-        
-        return $query
-        ->getQuery()
-        ->getResult();
-    }
     public function findByFilters($filter, $search): array
     {
         $query = $this->createQueryBuilder('f')
@@ -81,7 +59,7 @@ class FranchiseRepository extends ServiceEntityRepository
         if ($search != ""){   
             $query
            ->andWhere("u.name LIKE :search")
-           ->setParameter('search', "%{$search}%");
+           ->setParameter('search', "{$search}%");
     
         }
         // if ($filter["query"] != ""){   

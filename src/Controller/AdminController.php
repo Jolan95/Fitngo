@@ -39,19 +39,9 @@ class AdminController extends AbstractController
      */
     public function index(FranchiseRepository $franchiseRepository, UserRepository $userRepository,Request $request, ManagerRegistry $manager)
     {      
-        $franchises = $franchiseRepository->findAll();
-        
-        // $formActive = $this->createForm(FilterActiveType::class);
-        // $formActive->handleRequest($request);
-
-        // if($formActive->isSubmitted()){
-        //     $franchises = $franchiseRepository->findByFilter($formActive->getData());
-        // }
-        
+        $franchises = $franchiseRepository->findAll();        
         $filter = $request->get("filter");
 
-        
-        
         $ajax = $request->query->get("ajax");
         $search = $request->query->get("search");
         $filter = $request->query->get("filter");
@@ -63,17 +53,13 @@ class AdminController extends AbstractController
             return new JsonResponse([
                 "content" => $this->renderView('content/franchises.html.twig', [
                     "franchises" => $franchises,
-                    // 'form' => $formSearch->createView(),
-                    // 'formActive' => $formActive->createView()   
                 ])
             ]);
             
         }
     
         return $this->render('admin/index.html.twig', [
-            "franchises" => $franchises,
-            // 'form' => $formSearch->createView(),
-            // 'formActive' => $formActive->createView()   
+            "franchises" => $franchises,   
         ]);
 
     }
@@ -88,15 +74,10 @@ class AdminController extends AbstractController
         $franchise = $franchiseRepository->FindOneBy(["id" => $id]);
         $structures = $franchise->getStructures();
 
-        $formActive = $this->createForm(FilterActiveType::class);
-        $formActive->handleRequest($request);
-
-        if($formActive->isSubmitted()){
-            $structures = $structureRepository->findByFilter($formActive->getData(), $id);
-        }
-
-        $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
-
+        
+        
+        // $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
+        
         $form = $this->createForm(IsActiveType::class, $franchise);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -104,15 +85,31 @@ class AdminController extends AbstractController
             $entityManager->persist($franchise);
             $entityManager->flush();   
         }
+        
+        $ajax = $request->query->get("ajax");
+        $search = $request->query->get("search");
+        $filter = $request->query->get("filter");
 
-
+        if($ajax){
+            $structures = $structureRepository->findByFilters($filter, $search, $id);
+            return new JsonResponse([
+                "content" => $this->renderView('content/structures.html.twig', [
+                    "franchise"=>$franchise,
+                    "id" => $id,
+                    "structures"=>$structures,
+                    // "formActive" => $formActive->createView(),
+                    "form" => $form->createView()
+                ])
+            ]);
+        }
+        
         return $this->render(
             "admin/franchise.html.twig", 
             [
                 "franchise"=>$franchise,
                 "id" => $id,
                 "structures"=>$structures,
-                "formActive" => $formActive->createView(),
+                // "formActive" => $formActive->createView(),
                 "form" => $form->createView()
             ]
         );

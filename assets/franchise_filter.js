@@ -18,15 +18,7 @@ $("document").ready(()=>{
             //url
             let url = new URL(window.location.href)
             url = url.pathname + "?" +param.toString()+"&ajax=1";
-
-            // // On lance la requête ajax
-            // fetch(url.pathname + "?" + param.toString() + "&ajax=1", {
-            //     headers: {
-            //         "X-Requested-With": "XMLHttpRequest"
-            //     }
-            // }).then(response => 
-            //     response.json()
-            // ).catch((e)=> alert(e));
+    
             $.ajax({
                 type: "GET",
                 url: url,
@@ -35,9 +27,6 @@ $("document").ready(()=>{
                     content.innerHTML = data.content
                 },
             })
-            // .then(response => response.json())
-            // .then(data =>{
-            // })
 
         })
     })
@@ -45,7 +34,6 @@ $("document").ready(()=>{
         
         input.addEventListener("keyup", ()=>{
             const form = new FormData(filtersForm);
-            
 
             //queryString
             const param = new URLSearchParams();
@@ -53,27 +41,18 @@ $("document").ready(()=>{
             form.forEach((value, key) => {
                 param.append(key, value)
             })
-            
 
             //url
             let url = new URL(window.location.href)
             url = url.pathname + "?" +param.toString()+"&ajax=1";
-
-            // // On lance la requête ajax
-            // fetch(url.pathname + "?" + param.toString() + "&ajax=1", {
-            //     headers: {
-            //         "X-Requested-With": "XMLHttpRequest"
-            //     }
-            // }).then(response => 
-            //     response.json()
-            // ).catch((e)=> alert(e));
             $.ajax({
                 type: "GET",
                 url: url,
-                success: function(response) {
-                    console.log(response);
-                }
-            });
+                success: function(data){
+                    const content = document.querySelector("#content");
+                    content.innerHTML = data.content
+                },
+            })
         })
     })
 })
