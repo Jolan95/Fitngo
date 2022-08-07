@@ -26,6 +26,7 @@ use App\Form\FilterActiveType;
 use App\Entity\Permit;
 use App\Form\SearchByNameType;
 use App\Repository\PermitRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/admin")
@@ -49,13 +50,24 @@ class AdminController extends AbstractController
         
         $filter = $request->get("filter");
 
-        $franchises = $franchiseRepository->findByFilters($filter);
-
         
+        
+        $ajax = $request->query->get("ajax");
+        $search = $request->query->get("search");
+        $filter = $request->query->get("filter");
+        $franchises = $franchiseRepository->findByFilters($filter, $search);
 
         // check is ajax request
-        if($request->query->get("ajax")){
-            return new Response("okaay");
+        if($ajax){
+   
+            return new JsonResponse([
+                "content" => $this->renderView('content/franchises.html.twig', [
+                    "franchises" => $franchises,
+                    // 'form' => $formSearch->createView(),
+                    // 'formActive' => $formActive->createView()   
+                ])
+            ]);
+            
         }
     
         return $this->render('admin/index.html.twig', [

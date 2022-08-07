@@ -1,0 +1,16 @@
+{% for franchise in franchises %}
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center p-4">
+        <div class="box-wrapper {{ franchise.isActive == true ? '' :'box-inactive' }} p-2">
+            <h2 class="text-center">{{franchise.userInfo.name}}</h2>
+            <div>ID : {{franchise.userInfo.id}}</div>
+            <div>Email : {{franchise.userInfo.email}}</div>
+            <div>Structures : {{franchise.structures|length }}</div>
+            {% if franchise.isActive == true %}
+            <div class="green">Actif</div>
+            {% else %}
+            <div class="red">Inactif</div>
+            {% endif %}
+            <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button class="btn btn-success">Editer</button></a>
+        </div>
+    </div>
+{% endfor %}
