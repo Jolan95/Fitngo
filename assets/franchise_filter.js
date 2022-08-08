@@ -55,4 +55,7 @@ $("document").ready(()=>{
             })
         })
     })
+    filtersForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+    })
 })
