@@ -22,6 +22,16 @@
         {{ form_row(form.email)}}
         {{ form_row(form.name) }}
     {{ form_end(form) }}
+    
        
 </div>
+{% if id is defined %}
+<div>
+<a target="_blank" href={{path("app_email", {"id" : id})}}>
+    <button class="btn">
+        Mail
+    </button>
+<a>
+</div>
+{% endif %}
 {% endblock %}

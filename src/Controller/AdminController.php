@@ -20,12 +20,10 @@ use App\Repository\StructureRepository;
 use App\Entity\User;
 use App\Entity\Structure;
 use App\Entity\Franchise;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Form\FilterActiveType;
+use Symfony\Component\Mailer\MailerInterface;
 use App\Entity\Permit;
-use App\Form\SearchByNameType;
 use App\Repository\PermitRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -148,7 +146,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/create_franchise", name="app_create_franchise")
      */
-    public function create_franchise(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
+    public function create_franchise(Request $request, MailerInterface $mailer ,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
     {
 
         $user = new User();
@@ -159,7 +157,7 @@ class AdminController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
                 
                 /* fetch posted datas */
-                $email = $form->getData()->getEmail();
+                $mail = $form->getData()->getEmail();
                 $name = $form->getData()->getName();
 
                 /* hydrate my entities */
@@ -169,26 +167,48 @@ class AdminController extends AbstractController
                 $franchise->setPermit($permit);
                 $franchise->setIsActive(false);
                 $franchise->setUserInfo($user);
-                $user->setEmail($email);
+                $user->setEmail($mail);
                 $user->setName($name);
                 $user->setRoles(["ROLE_FRANCHISE"]);
                 $user->setFranchise($franchise);
                 /** Generate token password */
-                // $bytes = openssl_random_pseudo_bytes(8);
-                // $password = bin2hex($bytes);
+                $bytes = openssl_random_pseudo_bytes(8);
+                $password = bin2hex($bytes);
+
+                // generate token url connexion
                 $bytes = openssl_random_pseudo_bytes(6);
                 $token = bin2hex($bytes);
                 $user->setUrl($token);
-                $password = "admin";
+
+                // $password = "admin";
                 $hashedPassword = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($hashedPassword);
+
 
                 /* flushing datas in db */
                 $entityManager = $manager->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();              
                 $this->addFlash('success', 'La franchise '.$name.' a bien été enregistré.');
-                return $this->redirect($request->getUri());  
+
+                $email = (new TemplatedEmail())
+                ->from('fitngo@outlook.fr')
+                ->to($mail)
+                ->subject("Franchise créée")
+                ->text('Sending emails is fun again!')
+                ->htmlTemplate('mail/creation_franchise.html.twig')
+                ->context([
+                    'name' => $name,
+                    'mail' => $mail,
+                    'password' => $password,
+                ]);
+       
+                    $mailer->send($email);
+                    return $this->render("security/creation-franchise.html.twig", [
+                        "form" => $form->createView(),
+                        "id" => $user->getId()
+                    ]);   
+                // return $this->redirect($request->getUri());  
                      
             }
         return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
@@ -284,9 +304,18 @@ class AdminController extends AbstractController
     }
 
 
-    public function searchBar()
+    /**
+     * @Route("/email/{id}", name="app_email")
+     */
+    public function email($id, FranchiseRepository $franchiseRepository, UserRepository $userRepository )
     {
-
+        
+        $user = $userRepository->FindOneBy(["id" => $id]);
+        return $this->render("mail/creation_franchise.html.twig", [
+            "name" => $user->getName(),
+            "mail" => $user->getEmail(),
+            "password" => "zfojpregp"
+        ]);
     }
 
 
