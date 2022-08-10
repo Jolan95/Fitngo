@@ -26,6 +26,7 @@ use App\Repository\PermitRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
 /**
  * @Route("/admin")
  * @isGranted("ROLE_ADMIN") 
@@ -227,7 +228,7 @@ class AdminController extends AbstractController
                 $token = bin2hex($bytes);
                 $user->setUrl($token);
 
-                // $password = "admin";
+                // hashing password
                 $hashedPassword = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($hashedPassword);
 

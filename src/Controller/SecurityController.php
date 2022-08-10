@@ -15,6 +15,7 @@ use App\Repository\UserRepository;
 use App\Form\PasswordType;
 use App\Form\PasswordResetType;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class SecurityController extends AbstractController
@@ -22,7 +23,7 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils,ManagerRegistry $manager )
     {
             
         if ($this->getUser()) {
@@ -33,25 +34,37 @@ class SecurityController extends AbstractController
             $franchise = $user->getFranchise();            
             
             if(in_array("ROLE_ADMIN", $roles)){
+
                 return $this->redirectToRoute('app_admin');
 
             } else if (in_array("ROLE_STRUCTURE", $roles)){
+
                 if($structure->getLastConnection() == null){
                     return $this->redirectToRoute("edit-password-structure", ['id' => $structure->getId()]);
-                }
-                if(!$structure->isIsActive()){
-                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre structure est suspendu, Fitn'go a suspendu votre accès au site."]);
                 } 
+                if(!$structure->isIsActive()){
+                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre structure est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
+                } 
+                $structure->setLastConnection(new \DateTime('now'));
+                $entityManager = $manager->getManager();
+                $entityManager->persist($structure);
+                $entityManager->flush();
                 return $this->redirectToRoute('read_structure', ["token" =>$user->getUrl()]);
                 
             } else{
+
                 if($franchise->getLastConnection() == null){
                     return $this->redirectToRoute("edit-password-franchise", ['id' => $franchise->getId()]);
                 }
                 if(!$franchise->isIsActive()){
-                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre franchise est suspendu, Fitn'go a suspendu votre accès au site."]);
+                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre franchise est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
                 }
+                $franchise->setLastConnection(new \DateTime('now'));
+                $entityManager = $manager->getManager();
+                $entityManager->persist($franchise);
+                $entityManager->flush();
                 return $this->redirectToRoute("read_franchise", ["token" => $user->getUrl()]);
+            
             }
             
          }
@@ -66,7 +79,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/edit-my-password/{id}", name="edit-password-franchise")
      */
-    public function edit_password_franchise($id,Request $request,ManagerRegistry $manager ,FranchiseRepository $franchiseRepository, UserRepository $userRepository){
+    public function edit_password_franchise($id,Request $request,ManagerRegistry $manager ,FranchiseRepository $franchiseRepository, UserRepository $userRepository,  UserPasswordHasherInterface $passwordHasher){
 
         $franchise = $franchiseRepository->findOneBy(["id" => $id]);
         $user = $userRepository->findOneBy(["Franchise" => $franchise]);
@@ -74,7 +87,9 @@ class SecurityController extends AbstractController
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $user->setPassword($form->getData()["password"]);
+            $password = $form->getData()["password"];
+            $hashedPassword = $passwordHasher->hashPassword($user, $password);
+            $user->setPassword($hashedPassword);
             $franchise->setLastConnection(new \DateTime('now'));
             $entityManager = $manager->getManager();
             $entityManager->persist($user);
@@ -92,17 +107,19 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/edit-my-password/{id}", name="edit-password-structure")
+     * @Route("/edit-my-password/structure/{id}", name="edit-password-structure")
      */
-    public function edit_password_structure($id, Request $request,StructureRepository $structureRepository, UserRepository $userRepository, ManagerRegistry $manager){
+    public function edit_password_structure($id, Request $request,StructureRepository $structureRepository, UserRepository $userRepository, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher){
 
         $structure = $structureRepository->findOneBy(["id" => $id]);
-        $user = $userRepository->findOneBy(["Franchise" => $structure]);
+        $user = $userRepository->findOneBy(["Structure" => $structure]);
 
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $user->setPassword($form->getData()["password"]);
+            $password = $form->getData()["password"];
+            $hashedPassword = $passwordHasher->hashPassword($user, $password);
+            $user->setPassword($hashedPassword);
             $structure->setLastConnection(new \DateTime('now'));
             $entityManager = $manager->getManager();
             $entityManager->persist($user);
