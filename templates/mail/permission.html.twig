@@ -1,0 +1,32 @@
+{% if franchise is defined %}
+<h1>Les permissions de  la structure {{structure.userInfo.name}} ont été modifiés ! </h1>
+
+<p>
+
+Voici le récapitulatif de vos accès et permissions pour votre structure {{structure.userInfo.name}}
+
+<p>
+    {% if structure.isActive  %}
+    Votre structure est activé
+    {% else %}
+    Votre structure est désactivée
+    {% endif %}
+</p>
+
+Les options de {{structure.userInfo.name}} : 
+{% else %}
+<h1>Les permissions de votre structure {{structure.userInfo.name}} ont été modifiés ! </h1>
+
+<p>
+    {% if structure.isActive  %}
+    Votre structure est activé
+    {% else %}
+    Votre structure est désactivée
+    {% endif %}
+</p>
+
+Les options de {{structure.userInfo.name}} : 
+{% endif %}
+{% for permits in permit %}
+
+{% endfor %}

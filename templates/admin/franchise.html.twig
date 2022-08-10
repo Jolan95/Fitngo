@@ -29,6 +29,11 @@
             <div>{{ message }}</div>
         </div>
     {% endfor %} 
+    {% if mail == true %}
+    <a target="_blank" href="{{path("email_new_permit_franchise", {id : id})}}"><button>
+        Mail
+    </button></a>
+    {% endif %}
     <div class="d-flex justify-content-between">
         <a href="{{path("app_admin")}}">
             <button class="btn btn-danger">

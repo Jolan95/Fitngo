@@ -57,6 +57,48 @@ class MailController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/new-permit/{id}", name="email_new_permit_franchise")
+     */
+    public function new_permit_franchise($id, FranchiseRepository $franchiseRepository, UserRepository $userRepository, StructureRepository $structureRepository )
+    {
+
+        $franchise = $franchiseRepository->findOneBy(["id" => $id]);
+        return $this->render("mail/global-permission.html.twig", [
+            'franchise' => $franchise,
+            'permit' => $franchise->getPermit()
+        ]);
+    }
+    /**
+     * @Route("/new-permit/structure/{id}", name="email_new_permit_structure")
+     */
+    public function new_permit_structure( $id, FranchiseRepository $franchiseRepository, UserRepository $userRepository, StructureRepository $structureRepository )
+    {
+
+  
+        $structure = $structureRepository->findOneBy(["id" => $id]);
+        $franchise = $structure->getFranchise();
+        return $this->render("mail/permission.html.twig", [
+            'structure' => $structure,
+            'permit' => $structure->getPermit()
+        ]);
+    }
+
+    /**
+     * @Route("/new-permit/structure-to-franchise/{id}", name="email_new_permit_structure_toFranchise")
+     */
+    public function new_permit_structure_toFranchise( $id, FranchiseRepository $franchiseRepository, UserRepository $userRepository, StructureRepository $structureRepository )
+    {
+        $structure = $structureRepository->findOneBy(["id" => $id]);
+        $franchise = $structure->getFranchise();
+        return $this->render("mail/permission.html.twig", [
+            'franchise' => $franchise,
+            'structure' => $structure,
+            'permit' => $structure->getPermit()
+        ]);
+    }
+
+
 
 
 }

@@ -19,6 +19,14 @@
              Retour
             </button>
         </a>
+            {% if mail == true %}
+            <a target="_blank" href="{{path("email_new_permit_structure", {id : id})}}"><button>
+                Mail Structure
+            </button></a>
+            <a target="_blank" href="{{path("email_new_permit_structure_toFranchise", {id : id})}}"><button>
+                Mail pour la franchise
+            </button></a>
+            {% endif %}
         <div class="d-flex align-items-center">
           <h2>{{franchise.userInfo.name}} - {{structure.userInfo.name}}</h2> 
           <div>

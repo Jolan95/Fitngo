@@ -73,6 +73,7 @@ class AdminController extends AbstractController
         $user= $franchise->getUserInfo();
         $permit = $franchise->getPermit();
         $structures = $franchise->getStructures();
+        $mail = false;
 
         $form = $this->createForm(IsActiveType::class, $franchise);
         
@@ -81,6 +82,7 @@ class AdminController extends AbstractController
             $entityManager = $manager->getManager();
             $entityManager->persist($franchise);
             $entityManager->flush(); 
+            $this->addFlash('success', 'Les droits par défaut de la franchise ont été enregisté.');
             
             //send mail to franchise 
             $email = (new TemplatedEmail())
@@ -93,9 +95,9 @@ class AdminController extends AbstractController
                 'franchise' => $franchise,
                 'permit' => $permit,
             ]);
-   
+            
             $mailer->send($email);
-
+            $mail = true;
         }
         
         $ajax = $request->query->get("ajax");
@@ -109,7 +111,6 @@ class AdminController extends AbstractController
                     "franchise"=>$franchise,
                     "id" => $id,
                     "structures"=>$structures,
-                    // "formActive" => $formActive->createView(),
                     "form" => $form->createView()
                 ])
             ]);
@@ -121,8 +122,8 @@ class AdminController extends AbstractController
                 "franchise"=>$franchise,
                 "id" => $id,
                 "structures"=>$structures,
-                // "formActive" => $formActive->createView(),
-                "form" => $form->createView()
+                "form" => $form->createView(),
+                "mail" => $mail
             ]
         );
     }
@@ -130,10 +131,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_structure/{id}", name="app_edit_structure")
      */
-    public function edit_structure($id, StructureRepository $structureRepository, IsActiveType $isActiveType , ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_structure($id, MailerInterface $mailer, StructureRepository $structureRepository, IsActiveType $isActiveType , ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
+        $mail= false;
  
         $permit = $permitRepository->findOneBy(["id" => $structure->getPermit()->getId()]);
 
@@ -145,12 +147,46 @@ class AdminController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
             $entityManager->persist($structure);
-            $entityManager->flush();   
+            $entityManager->flush(); 
+            $this->addFlash('success', 'Les modifications des droits ont été enregistés.');
+            
+            
+            $email = (new TemplatedEmail())
+            ->from('fitngo@outlook.fr')
+            ->to($structure->getUserInfo()->getEmail())
+            ->subject("Les accès de votre structure ont été modifiés")
+            ->text('Sending emails is fun again!')
+            ->htmlTemplate('mail/permission.html.twig')
+            ->context([
+                'structure' => $structure,
+                'permit' => $structure->getPermit()
+            ]);
+            $mailer->send($email);
+
+
+            $emailtoFranchise = (new TemplatedEmail())
+            ->from('fitngo@outlook.fr')
+            ->to($franchise->getUserInfo()->getEmail())
+            ->subject("Les accès d'une de vos structure ont été modifiés")
+            ->text('Sending emails is fun again!')
+            ->htmlTemplate('mail/permission.html.twig')
+            ->context([
+                'structure' => $structure,
+                'permit' => $structure->getPermit(),
+                'franchise' => $franchise
+            ]);
+            $mailer->send($emailtoFranchise);
+            
+            $mail = true;
         }
 
-
-
-        return $this->render("admin/structures.html.twig", ["structure" => $structure,"franchise" => $franchise ,"id" => $id, "form" => $form->createView()]);
+        return $this->render("admin/structures.html.twig", [
+            "structure" => $structure,
+            "franchise" => $franchise,
+            "id" => $id,
+            "form" => $form->createView(),
+            "mail" => $mail
+        ]);
     }
 
 
