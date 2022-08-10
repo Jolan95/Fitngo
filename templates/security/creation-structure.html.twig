@@ -24,4 +24,19 @@
     {{ form_end(form) }}
        
 </div>
+
+{% if new_structure_id is defined %}
+<div>
+<a target="_blank" href={{path("email_new_structure", {"user_id" : new_structure_id})}}>
+    <button class="btn">
+        Mail
+    </button>
+<a>
+<a target="_blank" href={{path("email_new_structure_toFranchise", {"user_id" : new_structure_id, "franchise_id" : franchise.id})}}>
+    <button class="btn">
+        Mail franchise
+    </button>
+<a>
+</div>
+{% endif %}
 {% endblock %}

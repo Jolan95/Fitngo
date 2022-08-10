@@ -25,9 +25,9 @@
     
        
 </div>
-{% if id is defined %}
+{% if new_franchise_id is defined %}
 <div>
-<a target="_blank" href={{path("app_email", {"id" : id})}}>
+<a target="_blank" href={{path("email_new_franchise", {"id" : new_franchise_id})}}>
     <button class="btn">
         Mail
     </button>

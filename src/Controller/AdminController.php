@@ -67,21 +67,35 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_franchise/{id}", name="app_edit_franchise")
      */
-    public function edit_franchise($id,  StructureRepository $structureRepository,userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_franchise($id, MailerInterface $mailer,  StructureRepository $structureRepository,userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
 
         $franchise = $franchiseRepository->FindOneBy(["id" => $id]);
+        $user= $franchise->getUserInfo();
+        $permit = $franchise->getPermit();
         $structures = $franchise->getStructures();
 
-        
-        
-        // $permit = $permitRepository->findOneBy(["id" => $franchise->getPermit()->getId()]);
-        
         $form = $this->createForm(IsActiveType::class, $franchise);
+        
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
             $entityManager->persist($franchise);
-            $entityManager->flush();   
+            $entityManager->flush(); 
+            
+            //send mail to franchise 
+            $email = (new TemplatedEmail())
+            ->from('fitngo@outlook.fr')
+            ->to($user->getEmail())
+            ->subject("Permissions de votre franchise modifié !")
+            ->text('Sending emails is fun again!')
+            ->htmlTemplate('mail/global-permission.html.twig')
+            ->context([
+                'franchise' => $franchise,
+                'permit' => $permit,
+            ]);
+   
+            $mailer->send($email);
+
         }
         
         $ajax = $request->query->get("ajax");
@@ -120,9 +134,6 @@ class AdminController extends AbstractController
 
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
-        
-
-        // $franchise = $franchiseRepository->findOneBy(["id" => $structure=>g])
  
         $permit = $permitRepository->findOneBy(["id" => $structure->getPermit()->getId()]);
 
@@ -196,20 +207,18 @@ class AdminController extends AbstractController
                 ->to($mail)
                 ->subject("Franchise créée")
                 ->text('Sending emails is fun again!')
-                ->htmlTemplate('mail/creation_franchise.html.twig')
+                ->htmlTemplate('mail/new_franchise.html.twig')
                 ->context([
                     'name' => $name,
                     'mail' => $mail,
                     'password' => $password,
                 ]);
        
-                    $mailer->send($email);
-                    return $this->render("security/creation-franchise.html.twig", [
-                        "form" => $form->createView(),
-                        "id" => $user->getId()
-                    ]);   
-                // return $this->redirect($request->getUri());  
-                     
+                $mailer->send($email);
+                return $this->render("security/creation-franchise.html.twig", [
+                    "form" => $form->createView(),
+                    "id" => $user->getId()
+                ]);    
             }
         return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
     }
@@ -219,10 +228,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/create_structure/{id}", name="create_structure")
      */
-    public function create_structure($id, Request $request, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+    public function create_structure($id, Request $request,  MailerInterface $mailer,UserRepository $userRepository, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
        
         $franchise = $franchiseRepository->findOneBy(['id' => $id]);
-        
+
         $form = $this->createForm(NewStructureType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -234,6 +243,7 @@ class AdminController extends AbstractController
             $permit->setLiveChat($franchise->getPermit()->isLiveChat());
             $permit->setVirtualTraining($franchise->getPermit()->isVirtualTraining());
             $permit->setDetailedData($franchise->getPermit()->isDetailedData());
+
             
             $structure  = new Structure();
             $structure->setPermit($permit);
@@ -242,14 +252,17 @@ class AdminController extends AbstractController
 
             /* fetch form datas */
             $name = $form->getData()->getName();
-            $email = $form->getData()->getEmail();
+            $mail = $form->getData()->getEmail();
             
             $user = new User();
             $user->setName($name);
-            $user->setEmail($email);
+            $user->setEmail($mail);
             $user->setRoles(["ROLE_STRUCTURE"]);
             $user->setStructure($structure);
-            $password = "admin";
+
+            /** Generate token password */
+            $bytes = openssl_random_pseudo_bytes(8);
+            $password = bin2hex($bytes);
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);
 
@@ -262,6 +275,41 @@ class AdminController extends AbstractController
             $entityManager->flush();   
             $this->addFlash("success", "La structure ".$name." a été créée");     
 
+
+            // sending Mail to Structure and Franchise
+            $email = (new TemplatedEmail())
+            ->from('fitngo@outlook.fr')
+            ->to($mail)
+            ->subject("Structrue créée")
+            ->text('Sending emails is fun again!')
+            ->htmlTemplate('mail/new_structure.html.twig')
+            ->context([
+                'name' => $name,
+                'mail' => $mail,
+                'password' => $password,
+            ]);
+   
+            $mailer->send($email);
+
+            $userFranchise = $userRepository->findOneBy(["Franchise" => $franchise]);
+            $emailFranchise = (new TemplatedEmail())
+            ->from('fitngo@outlook.fr')
+            ->to($userFranchise->getEmail())
+            ->subject("Une nouvelle structrue créée !")
+            ->text('Sending emails is fun again!')
+            ->htmlTemplate('mail/new_structure.html.twig')
+            ->context([
+                'franchise_name' => $userFranchise->getName(),
+                'name' => $name,
+            ]);
+   
+            $mailer->send($emailFranchise);
+
+            return $this->render("security/creation-structure.html.twig", [
+                "form" => $form->createView(),
+                "franchise" => $franchise,
+                "new_structure_id" => $user->getId(), 
+            ]); 
         }
         
         return $this->render("security/creation-structure.html.twig", ["form" => $form->createView(), "franchise" => $franchise]);
@@ -304,19 +352,7 @@ class AdminController extends AbstractController
     }
 
 
-    /**
-     * @Route("/email/{id}", name="app_email")
-     */
-    public function email($id, FranchiseRepository $franchiseRepository, UserRepository $userRepository )
-    {
-        
-        $user = $userRepository->FindOneBy(["id" => $id]);
-        return $this->render("mail/creation_franchise.html.twig", [
-            "name" => $user->getName(),
-            "mail" => $user->getEmail(),
-            "password" => "zfojpregp"
-        ]);
-    }
+
 
 
 
