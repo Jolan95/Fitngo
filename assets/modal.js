@@ -30,3 +30,11 @@ $("#remove-structure-close").click(()=>{
     $("#remove-structure-modal").modal("hide");
 })
 
+// modal logout structure
+$("#logout").click(()=>{
+    $("#logout-modal").modal("show")  
+})
+$("#modal-logout-close").click(()=>{
+    $("#logout-modal").modal("hide");
+})
+

@@ -1,71 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FranchiseController!{% endblock %}
+{% block title %}Ma Franchise!{% endblock %}
 
 {% block body %}
 {% include 'includes/navigation.html.twig' %}
-    {{franchise.userInfo.name}}
+    <div class="page-100 " style="background-image : url('{{asset("img/weight.jpeg")}}'); padding : 130px;">
+    <h1 class="text-center">{{franchise.userInfo.name}}</h1>
 
-    {% for structure in franchise.structures %}
-    <div>
-    {{structure.userInfo.name}}
-        {% if structure.isActive %}
-        <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">voir</a>
-        {% endif %}
+    {% if franchise.structures|length > 0  %}
+        {% for structure in franchise.structures %}
+            <div class="wrapper-inline">
+            {{structure.userInfo.name}}
+
+            {% if structure.isActive %}
+                <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">voir</a>
+            {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="wrapper-inline">
+        Vous n'avez pour le moment aucune structure
+        </div>
+    {% endif %}
+
+
+    <div>Options par défaut : <div>
+    {% include "includes/permit.html.twig" %}
     </div>
-    {% endfor %}
-
-
-    Permissions par défaut : 
-
-    {% if (permit.paymentOnline) %}
-        <div class="green">
-            - Paiement en ligne
-        </div>
-    {% else %}
-        <div class="red">
-            - Paiement en ligne
-        </div>
-    {% endif %}
-
-    {% if (permit.teamSchedule) %}
-        <div class="green">
-           - Gestion planning équipe
-        </div>
-    {% else %}
-        <div class="red">
-           - Gestion planning équipe
-        </div>
-    {% endif %}
-
-    {% if (permit.liveChat) %}
-        <div class="green">
-            - Chat en ligne
-        </div>
-    {% else %}
-        <div class="red">
-           - Chat en ligne
-        </div>
-    {% endif %}
-
-    {% if (permit.virtualTraining) %}
-        <div class="green">
-            - Entrainements virtuels
-        </div>
-    {% else %}
-        <div class="red">
-            - Entrainements virtuels
-        </div>
-    {% endif %}
-
-    {% if (permit.detailedData) %}
-        <div class="green">
-           - Données de l'application
-        </div>
-    {% else %}
-        <div class="red">
-            - Données de l'application
-        </div>
-    {% endif %}
-
 {% endblock %}

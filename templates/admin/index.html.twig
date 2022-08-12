@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Accueil !{% endblock %}
 
 {% block javascripts %}
  {{ encore_entry_script_tags('filter_franchise') }}
@@ -10,49 +10,55 @@
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
     {% block additionalItem %}
-        <a href="{{path("app_create_franchise")}}">
-            <button class="btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg> Nouvelle franchise
-            </button>
-        </a>
+    <h1>Les Franchises</h1>
     {% endblock %}
 {% endembed %}
 
-<div class="container mt-4">
+
+
+<div class="container ">
+    <div class="d-sm-flex align-items-center my-2">
+
+            <a href="{{path("app_create_franchise")}}">
+                <button class="btn-grad grad-green full-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle bold pe-2" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> Nouvelle franchise
+                </button>
+            </a>
+
+        
         {% for message in app.flashes('success') %}
-        <div class="alert alert-info m-3">
+        <div class="alert alert-success w-100 m-3">
             <div>{{ message }}</div>
         </div>
         {% endfor %}
-    <div class="container">
-        <form id="filter" class="d-flex justify-content-between mb-3">
+    </div>    
+
+        <form id="filter">
             <div class="radio-box">
                 <input type="radio" checked name="filter" id="all" value="">
-                <label for="all">Toutes</label>
+                <label for="all">Tous</label>
                 <input type="radio" name="filter" id="actif" value="1">
                 <label for="actif">Actif</label>
                 <input type="radio" name="filter" id="inactif" value="0">
                 <label for="inactif">Inactif</label>
             </div>
             <div class="search-box">
-                <div class="btn-search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <div class="btn-search full-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
                 </div>
                 <input type="text" id="search" name="search" class="input-search" placeholder="Rechercher">
             </div>
         </form>
+    
+    <div class="row" id="content">
+    {% include "content/franchises.html.twig" %}
     </div>
-        <div class="row" id="content">
-        {% include "content/franchises.html.twig" %}
-        </div>
 
 </div>
-
-
 
 {% endblock %}

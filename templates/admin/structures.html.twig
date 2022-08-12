@@ -8,17 +8,26 @@
 
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
+    {% block additionalItem %}
+        <div class="d-flex align-items-center">
+          <h2>{{franchise.userInfo.name}} - {{structure.userInfo.name}}</h2> 
+          <div>
+              {% if structure.isActive == true %}
+               <div class="circle-green"></div>
+                {% else %}
+                <div class="circle-red"></div>
+              {% endif %}
+          </div>
+        </div>
+    {% endblock %}
 {% endembed %}
+    <a href="{{path("app_edit_franchise", {"id" : franchise.id})}}" class="position-absolute m-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-backspace-fill red" viewBox="0 0 16 16">
+          <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+        </svg>
+    </a>
 <div class="mt-3 container-fluid">
     <div class='d-flex justify-content-between'> 
-        <a href="{{path("app_edit_franchise", {"id" : franchise.id})}}">
-            <button class="btn btn-danger">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-            </svg>
-             Retour
-            </button>
-        </a>
             {% if mail == true %}
             <a target="_blank" href="{{path("email_new_permit_structure", {id : id})}}"><button>
                 Mail Structure
@@ -27,26 +36,10 @@
                 Mail pour la franchise
             </button></a>
             {% endif %}
-        <div class="d-flex align-items-center">
-          <h2>{{franchise.userInfo.name}} - {{structure.userInfo.name}}</h2> 
-          <div>
-              [
-              {% if structure.isActive == true %}
-              <span class="green">Actif</span>
-              {% else %}
-              <span class="red">Inactif</span>
-              {% endif %}
-              ]
-          </div>
-        </div>
-        <div>
-          <button class="btn btn-dark" id="remove-structure">
-            Supprimer cette structure
-          </button>
-        </div>
+
     </div>
 </div>
-<div class="container">
+<div class="container d-flex">
     <div class="box-wrapper box-wrapper-big ">
         <div>ID : {{structure.userInfo.id}}</div>
         <div>Email : {{structure.userInfo.email}}</div>
@@ -59,6 +52,11 @@
             {{ form_end(form) }}
         </div>
     </div>    
+        <div class="p-4">
+          <button class="btn btn-dark" id="remove-structure">
+            Supprimer cette structure
+          </button>
+        </div>
 </div>
 
 
@@ -91,8 +89,8 @@
         <p>Etes-vous sûr de vouloir supprimer la structure {{structure.userInfo.name}} ?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" id="remove-structure-close">Annuler</button>
-        <a href="{{path("remove_structure", {"id" : structure.id})}}"><button class="btn btn-dark">Supprimer</button></a>
+        <button type="button" class="btn btn-dark" data-dismiss="modal" id="remove-structure-close">Annuler</button>
+        <a href="{{path("remove_structure", {"id" : structure.id})}}"><button class="btn btn-danger">Supprimer</button></a>
       </div>
     </div>
   </div>

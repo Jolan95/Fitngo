@@ -16,7 +16,11 @@ class NewFranchiseType extends AbstractType
         $builder
             ->add('email',EmailType::class)
             ->add('name')
-            ->add('save', SubmitType::class, ['label' => 'Créer une nouvelle franchise'])
+            ->add('save', SubmitType::class, ['label' => 'Créer une nouvelle franchise',
+            "attr" => [
+                "class" => "btn-grad grad-green mt-2"
+                ]
+            ])
 
         ;
     }

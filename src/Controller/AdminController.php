@@ -136,12 +136,12 @@ class AdminController extends AbstractController
 
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
-        $mail= false;
  
         $permit = $permitRepository->findOneBy(["id" => $structure->getPermit()->getId()]);
 
         $form = $this->createForm(PermitType::class, $permit);
         $form->handleRequest($request);
+        $mail = false;
 
         $form = $this->createForm(IsActiveType::class, $structure);
         $form->handleRequest($request);
@@ -200,6 +200,7 @@ class AdminController extends AbstractController
         $user = new User();
         $form = $this->createForm(NewFranchiseType::class, $user);
         $form->handleRequest($request);
+        $mail = false;
 
         /** if form is correct */
         if($form->isSubmitted() && $form->isValid()){
@@ -237,7 +238,7 @@ class AdminController extends AbstractController
                 $entityManager = $manager->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();              
-                $this->addFlash('success', 'La franchise '.$name.' a bien été enregistré.');
+                $this->addFlash('success', 'La franchise '.$name.' a été enregistrée avec succès.');
 
                 $email = (new TemplatedEmail())
                 ->from('fitngo@outlook.fr')
@@ -250,11 +251,12 @@ class AdminController extends AbstractController
                     'mail' => $mail,
                     'password' => $password,
                 ]);
-       
-                $mailer->send($email);
+                
+
                 return $this->render("security/creation-franchise.html.twig", [
                     "form" => $form->createView(),
-                    "id" => $user->getId()
+                    "id" => $user->getId(),
+                    "new_franchise_id" => $user->getId(),
                 ]);    
             }
         return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
@@ -363,7 +365,7 @@ class AdminController extends AbstractController
         $entityManager = $manager->getManager();
         $entityManager->remove($user);
         $entityManager->flush();   
-        $this->addFlash('success', 'La franchise '.$user->getName().' a bien été supprimé.');
+        $this->addFlash('success', 'La franchise '.$user->getName().' a été supprimée avec succès.');
 
         
         return $this->redirectToRoute('app_admin');

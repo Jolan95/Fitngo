@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
             
          }
         
-        $error = $authenticationUtils->getLastAuthenticationError();
+         $error = $authenticationUtils->getLastAuthenticationError();
         
         $lastUsername = $authenticationUtils->getLastUsername();
 

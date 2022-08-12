@@ -1,0 +1,25 @@
+{% if (permit.newsletter) or (permit.paymentOnline) or (permit.teamSchedule) or (permit.liveChat) or (permit.virtualTraining) or (permit.detailedData) %}
+        {% if (permit.paymentOnline) %}
+            - Paiement en ligne</br>
+        {% endif %}
+
+        {% if (permit.teamSchedule) %}
+            - Gestion planning équipe
+        {% endif %}
+
+        {% if (permit.liveChat) %}
+            - Chat en ligne
+        {% endif %}
+
+        {% if (permit.virtualTraining) %}
+            - Entrainements virtuels<br/>
+        {% endif %}
+
+        {% if (permit.detailedData) %}
+            - Données de l'application<br/>
+        {% endif %}
+
+{% else %}
+- Aucune option activé</br>
+{% endif %}
+    
