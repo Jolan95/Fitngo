@@ -15,13 +15,16 @@ $font2 : 'Tiro Gurmukhi', serif;
 /**Global Style**/
 
 body{
-    font-family : $font1;
     color : black;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Old versions of Firefox */
     user-select: none; 
+}
+h1, h2, h3, h4, h5{
+
+    font-family : $font1;
 }
 .green{
     color : rgb(1, 88, 1);
@@ -109,6 +112,12 @@ input{
     font-weight : 600;
     
 }
+.size-up:hover{
+    transform: scale(1.1);
+}
+.form-label{
+    font-family: $font2;
+}
 
 /***Nav***/
 nav{
@@ -127,6 +136,7 @@ nav{
 #filter{
     display : flex; 
     flex-direction: column;
+    align-items: flex-end;
 }
 .bold{
     font-weight :700;
@@ -219,8 +229,7 @@ nav{
   .radio-box {
       display: flex;
       align-items: center;
-      border-bottom: 2px solid black;
-    //   width: 280px;
+      //   width: 280px;
       height: 40px;
     // box-shadow: inset 0.5px 0.5px 2px 0 rgba(0, 0, 0, 0.15);
     label {
@@ -270,6 +279,7 @@ nav{
     width: 100%;
     min-height : 100vh;
     background-size : cover;
+    background-position: center;
     .wrapper-form{
         background: rgba(209, 209, 209, 0.7);
         border-radius : 12px;
@@ -282,7 +292,6 @@ nav{
     width: 100%;
     min-height : 100vh;
     background-size : contain;
-
 }
 
 
@@ -291,10 +300,57 @@ nav{
     #filter{
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
+        .input-radio {
+
+            border-bottom: 2px solid black;
+        }
     }
 }
-         
 
+
+
+
+.isActive{
+    input[type=checkbox]{
+    display: none;
+  }
+  
+  label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 60px;
+    height: 35px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+  }
+  
+  label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 31px;
+    height: 31px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+  }
+  
+  input:checked + label {
+    background: #31c400;
+  }
+  
+  input:checked + label:after {
+    transform: translateX(24px);
+  }
+  
+//   label:active:after {
+//       width: 130px;
+//     }
+
+}
 
 

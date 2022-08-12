@@ -4,53 +4,52 @@
 
 
 {% block javascripts %}
- {{ encore_entry_script_tags('modal') }}
- {{ encore_entry_script_tags('filter_franchise') }}
+    {{ encore_entry_script_tags('modal') }}
+    {{ encore_entry_script_tags('filter_franchise') }}
 {% endblock %}
 {% block body %}
-{% embed 'includes/navigation.html.twig' %}
-    {% block additionalItem %}
-        <div class="d-flex align-items-center">
-        <h1 class="text-center">{{franchise.userInfo.name}}</h1>
-        {% if franchise.isActive == true %}
-            <div class="circle-green"></div>
-            {% else %}
-            <div class="circle-red"></div>
-        {% endif %}
-        </div>
-    {% endblock %}
-{% endembed %}
+    {% embed 'includes/navigation.html.twig' %}
+        {% block additionalItem %}
+            <div class="d-flex align-items-center">
+            <h1 class="text-center">{{franchise.userInfo.name}}</h1>
+            {% if franchise.isActive == true %}
+                <div class="circle-green"></div>
+                {% else %}
+                <div class="circle-red"></div>
+            {% endif %}
+            </div>
+        {% endblock %}
+    {% endembed %}
     <a href="{{path("app_admin")}}" class="position-absolute m-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-backspace-fill red" viewBox="0 0 16 16">
-          <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-backspace-fill red size-up" viewBox="0 0 16 16">
+            <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
         </svg>
     </a>
+    <div class="container mt-3">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-info m-3">
+                <div>{{ message }}</div>
+            </div>
+        {% endfor %} 
+            <a href="{{path("create_structure", {"id" : franchise.id})}}">
+                <button class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> Nouvelle Structure
+                </button>
+            </a>
+        {% if mail == true %}
+        <a target="_blank" href="{{path("email_new_permit_franchise", {id : id})}}"><button>
+            Mail
+        </button></a>
+        {% endif %}
+        <div class="d-flex justify-content-between">
 
-<div class="container mt-3">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-info m-3">
-            <div>{{ message }}</div>
-        </div>
-    {% endfor %} 
-        <a href="{{path("create_structure", {"id" : franchise.id})}}">
-            <button class="btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg> Nouvelle Structure
-            </button>
-        </a>
-    {% if mail == true %}
-    <a target="_blank" href="{{path("email_new_permit_franchise", {id : id})}}"><button>
-        Mail
-    </button></a>
-    {% endif %}
-    <div class="d-flex justify-content-between">
-
-        <div>
-        </div>
-    </div>    
-</div>
+            <div>
+            </div>
+        </div>    
+    </div>
 
     <div class="container">  
         <form id="filter" class="d-flex justify-content-between mb-3">
@@ -83,7 +82,10 @@
             <div class="col-3">
                 <div class="box-wrapper box-wrapper-big">
                 {{ form_start(form, {'attr': {'id': "form_edit_permit"}}) }}
-                    {{ form_widget(form) }}
+                    <div class="isActive d-flex">
+                    {{ form_row(form.isActive) }}
+                    </div>
+                    {{ form_row(form.Permit) }}
                     <button type="button" class="btn btn-primary" data-toggle="modal" id="modal" disabled data-target="#permitModal">
                         Enregistrer les modifications
                     </button>
@@ -99,11 +101,10 @@
                     Supprimer la franchise
                 </button>
             </div>    
-    </div>
+        </div>
+    </div>  
 </div>  
-<div class="d-flex justify-content-center">
 
-</div>
 
 {# modal modification #}
 <div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
