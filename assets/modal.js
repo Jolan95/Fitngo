@@ -3,7 +3,7 @@
 $("#modal").click(()=>{
     $("#permitModal").modal("show")
 })
-$("form").change(()=>{
+$("form#form_edit_permit").change(()=>{
     $("#modal").prop("disabled", false)
 })
 $("#modal-close").click(()=>{
@@ -37,4 +37,5 @@ $("#logout").click(()=>{
 $("#modal-logout-close").click(()=>{
     $("#logout-modal").modal("hide");
 })
+$(".alert").alert('close')
 

@@ -19,8 +19,7 @@ class PermitType extends AbstractType
         ->add('team_schedule' , CheckboxType::class, ["label" => "Planning équipe", "required" => false])
         ->add('live_chat' , CheckboxType::class, ["label" => "Chat en ligne","required" => false])
         ->add('virtual_training' , CheckboxType::class, ["label" => "Entrainements virtuels", "required" => false])
-        ->add('detailed_data' , CheckboxType::class, ["label" => "Donées Détaillées", "required" => false])   
-       
+        ->add('detailed_data' , CheckboxType::class, ["label" => "Données Détaillées", "required" => false])   
         ;
     }
 

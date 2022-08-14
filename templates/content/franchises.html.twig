@@ -1,20 +1,20 @@
 {% if franchises|length > 0 %}
     {% for franchise in franchises %}
-        <div class="col-12 col-md-6 col-xl-4 d-flex justify-content-center p-4">
+        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center p-4">
             <div class="box-wrapper {{ franchise.isActive == true ? '' :'box-inactive' }} p-2">
                 <h3 class="text-center">{{franchise.userInfo.name}}</h3>
                 <div>ID : {{franchise.userInfo.id}}</div>
-                <div>Email : {{franchise.userInfo.email}}</div>
+                <div class="overflow-hidden text-nowrap">Email : {{franchise.userInfo.email}}</div>
                 <div>Structures : {{franchise.structures|length }}</div>
                 {% if franchise.isActive == true %}
                 <div class="green">Actif</div>
                 {% else %}
                 <div class="red">Inactif</div>
                 {% endif %}
-                <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button class="btn btn-success ">Editer</button></a>
+                <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button class="btn-grad grad-green ">Editer</button></a>
             </div>
         </div>
     {% endfor %}
 {% else %}
-    <div class="text-center mt-4">Aucune franchise ne correspond à vos critères</div>
+    <div class="text-center mt-5 p-2 bold">Aucune structure</div>
 {% endif %}

@@ -121,7 +121,7 @@ input{
 
 /***Nav***/
 nav{
-    height: 150px; 
+    height: 130px; 
     .img-logo{
         height : 100%;
         width : auto;
@@ -136,7 +136,7 @@ nav{
 #filter{
     display : flex; 
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 .bold{
     font-weight :700;
@@ -163,22 +163,32 @@ nav{
     width : 100%;
     max-width : 500px;
 }
-.wrapper-inline{
+.box-wrapper-inline{
     width : 100%;
-    max-width : 700px;
     border-radius : 12px;
-    background-color : whitesmoke;
-    height : 50px;
+    background-color : white;
+    height : 60px;
     display : flex; 
     align-items : center;
-    color : white;
+    justify-content : space-between;
+    color : black;
+    border : 1px solid black;
+    h3{
+        font-size: 1.225rem;
+        float : left;
+    }
 }
 .box-inactive{
-    border : 1px solid rgb(170, 170, 170);
-    background-color: rgb(222, 221, 221);
+    border : 1px solid rgb(240, 240, 240);
+    background-color: rgb(240, 240, 240);
+}
+.schema {
+    background-color  : grey;
 }
 
-
+.add-franchise{ 
+    width : 100%
+}
 
 
 //Input search
@@ -199,7 +209,7 @@ nav{
     padding-right: 40px;
     color: black;
     width: 200px;
-    border-radius: 0px;
+
 }
 .input-search::placeholder{
     color:rgba(255,255,255,.5);
@@ -243,7 +253,7 @@ nav{
         width: 90px;
         height: 100%;
         text-align: center;
-        border-radius: 2px 16px 0px 0px;
+        border-radius: 4px 16px 0px 0px;
         overflow: hidden;
         transition: linear 0.3s;
         color: #545454dd;
@@ -314,43 +324,42 @@ nav{
 .isActive{
     input[type=checkbox]{
     display: none;
-  }
+    }
+    .form-check{
+        padding-left : 0px;
+    }
+    label {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 60px;
+        height: 35px;
+        background: grey;
+        display: block;
+        border-radius: 100px;
+        position: relative;
+    }
   
-  label {
-    cursor: pointer;
-    text-indent: -9999px;
-    width: 60px;
-    height: 35px;
-    background: grey;
-    display: block;
-    border-radius: 100px;
-    position: relative;
-  }
+    label:after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 31px;
+        height: 31px;
+        background: #fff;
+        border-radius: 90px;
+        transition: 0.3s;
+    }
   
-  label:after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 31px;
-    height: 31px;
-    background: #fff;
-    border-radius: 90px;
-    transition: 0.3s;
-  }
+    input:checked + label {
+        background: #31c400;
+    }
   
-  input:checked + label {
-    background: #31c400;
-  }
-  
-  input:checked + label:after {
-    transform: translateX(24px);
-  }
-  
-//   label:active:after {
-//       width: 130px;
-//     }
-
+    input:checked + label:after {
+        transform: translateX(24px);
+    }
 }
+
+  
 
 
