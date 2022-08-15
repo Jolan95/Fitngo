@@ -1,13 +1,13 @@
 {% if structures|length > 0 %}
         <h2 class="text-center mb-3">Les structures</h2>
     {% for structure in structures %}
-    <div class="col-12 col-lg-6 mb-2 full-center">
+    <div class="col-12 col-xl-6 mb-2 full-center">
         <div class="box-wrapper row {{ structure.isActive == true ? '' :'box-inactive' }} mb-2">
-            <div class="overflow-hidden text-nowrap">{{structure.userInfo.name}}</div>
+            <h3 class="overflow-hidden text-nowrap text-center">{{structure.userInfo.name}}</h3>
             <div >Id : {{structure.id}}</div>
             <div class="overflow-hidden text-nowrap">{{structure.userInfo.email}}</div>
                 {% if structure.isActive == true %}
-                    <div class="green"></div>
+                    <div class="green">Activé</div>
                     {% else %}
                     <div class="red ">Désactivé</div>
                 {% endif %}

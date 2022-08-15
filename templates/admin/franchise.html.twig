@@ -21,15 +21,23 @@
             </div>
         {% endblock %}
     {% endembed %}
-    <a href="{{path("app_admin")}}" class="position-absolute m-3 ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-backspace-fill red size-up" viewBox="0 0 16 16">
+    <a href="{{path("app_admin")}}" class="position-absolute mx-3 mt-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-backspace-fill red size-up" viewBox="0 0 16 16">
             <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
         </svg>
     </a>
-    <div class="container mt-5 py-3">
+    <div class="container mt-4 pt-3 mb-2">
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success m-3">
-                <div>{{ message }}</div>
+            <div class="alert alert-success mb-3 d-flex align-items-center">
+                <div class="me-2">{{ message }}</div>
+                {% if mail == true %}
+                <a target="_blank" href="{{path("email_new_permit_franchise", {id : id})}}"><button class="btn-grad grad-darkblue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                    </svg>
+                    Mail
+                </button></a>
+                {% endif %}
             </div>
         {% endfor %} 
             <a href="{{path("create_structure", {"id" : franchise.id})}}">
@@ -40,31 +48,23 @@
                 </svg> Nouvelle Structure
                 </button>
             </a>
-        {% if mail == true %}
-        <a target="_blank" href="{{path("email_new_permit_franchise", {id : id})}}"><button>
-            Mail
-        </button></a>
-        {% endif %}
-        <div class="d-flex justify-content-between">
-
-            <div>
-            </div>
+        <div>
         </div>    
     </div>
 
-    <div class="container 3">  
-        <form id="filter" class="d-flex justify-content-between mb-3">
+    <div class="container">  
+        <form id="filter" class="d-flex justify-content-between mb-2">
         <div class="radio-box">
             <input type="radio" checked name="filter" id="all" value="">
             <label for="all">Toutes</label>
             <input type="radio" name="filter" id="actif" value="1">
-            <label for="actif">Actif</label>
+            <label for="actif">Actives</label>
             <input type="radio" name="filter" id="inactif" value="0">
-            <label for="inactif">Inactif</label>
+            <label for="inactif">Inactives</label>
         </div>
         <div class="search-box">
             <div class="btn-search">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
             </div>
@@ -75,7 +75,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-4 col-xxl-3 col-md-6 order-md-2">
-                <div class="box-wrapper box-wrapper-big my-4 my-lg-0">
+                <div class="box-wrapper box-wrapper-big my-4 my-lg-1">
                 {{ form_start(form, {'attr': {'id': "form_edit_permit"}}) }}
                     <div class="isActive">
                     {{ form_row(form.isActive) }}
@@ -108,37 +108,55 @@
 
 {# modal modification #}
 <div class="modal fade" id="permitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5>Modifications permissions</h5>
-      </div>
-      <div class="modal-body">
-        <p>Etes-vous sûr de vouloir enregistrer les modifications?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-close">Annuler</button>
-        <button  type="submit" form="form_edit_permit" class="btn btn-success">Enregistrer les Modifications</button> 
-      </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="full-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-octagon red" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                    <span class="px-2">Modification Accès</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-octagon red" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                </h4>              
+                <p class="pb-4 pt-3 text-center">Etes-vous sûr de vouloir enregistrer les modifications?</p>
+                <div class="d-flex justify-content-around">
+                    <button type="button" class="btn-grad grad-red" data-dismiss="modal" id="modal-close">Annuler</button>
+                    <button   type="submit" form="form_edit_permit" class="btn-grad grad-green">Enregistrer</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>   
 {# Modal remove #}
 <div class="modal fade" id="remove-franchise-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5>Suppression franchise</h5>
-      </div>
-      <div class="modal-body">
-        <p>Etes-vous sûr de vouloir supprimer la franchise {{franchise.userInfo.name}} et ses structures ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" id="modal-remove-close">Annuler</button>
-        <a href="{{path("remove_franchise", {"id" : franchise.userInfo.id})}}"><button class="btn btn-dark">Supprimer</button></a>
-      </div>
-    </div>
-  </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="full-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-octagon red" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                    <span class="px-2">Suppression franchise</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-octagon red" viewBox="0 0 16 16">
+                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                </h4>              
+                <p class="pb-4 pt-3 text-center bold">Etes-vous sûr de vouloir supprimer la franchise {{franchise.userInfo.name}} et ses structures ?</p>
+                <div class="d-flex justify-content-around">
+                    <button type="button" class="btn-grad grad-red" data-dismiss="modal" id="modal-remove-close">Annuler</button>
+                    <a href="{{path("remove_franchise", {"id" : franchise.userInfo.id})}}">
+                        <button class="btn-grad grad-green">Supprimer</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+     </div>
 </div>   
 
 {% endblock %}

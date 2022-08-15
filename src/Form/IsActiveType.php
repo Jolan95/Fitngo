@@ -16,7 +16,7 @@ class IsActiveType extends AbstractType
         $builder
             ->add('isActive', CheckboxType::class, [
                  "required" => false,
-                 "label" => "Actif",
+                 "label" => "Active",
                  ])
             ->add("Permit", PermitType::class, [
                 "label" => "Permissions"

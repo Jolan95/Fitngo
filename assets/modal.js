@@ -37,5 +37,8 @@ $("#logout").click(()=>{
 $("#modal-logout-close").click(()=>{
     $("#logout-modal").modal("hide");
 })
-$(".alert").alert('close')
+
+$("#close-flash").on("click", ()=> {
+    $(".alert").alert('close')
+})
 
