@@ -6,7 +6,6 @@
 
 $nav-color : rgb(8,18,39);
 $nav-color :  rgba(255,255,255,0.0);
-$bg-color : #d9dbd9;
 $font1 : 'Lobster', cursive;
 $font-button : 'Rubik', cursive;
 $font2 : 'Tiro Gurmukhi', serif;
@@ -56,6 +55,10 @@ h1, h2, h3{
     color : rgb(134, 0, 0);
     font-weight: bold;
 }
+.btn-eye{
+    background-color: transparent;
+    border: none;
+}
 .full-center{
     display: flex;
     justify-content: center;
@@ -75,7 +78,6 @@ a:link , a:visited, a:hover{
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
-    box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     border : none;
     display : flex; 
@@ -171,21 +173,22 @@ nav{
     width : 100%;
     max-width : 500px;
 }
-// .box-wrapper-inline{
-//     width : 100%;
-//     border-radius : 12px;
-//     background-color : white;
-//     height : 60px;
-//     display : flex; 
-//     align-items : center;
-//     justify-content : space-between;
-//     color : black;
-//     border : 1px solid black;
-//     h3{
-//         font-size: 1.225rem;
-//         float : left;
-//     }
-// }
+ .box-wrapper-inline{
+    width : 100%;
+    border-radius : 12px;
+    background-color : white;
+    height : 60px;
+    display : flex; 
+    align-items : center;
+    justify-content : space-between;
+    color : black;
+    border : none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    h3{
+        font-size: 1.8rem;
+
+    }
+}
 .box-inactive{
     border : 1px solid rgb(240, 240, 240);
     background-color: rgb(240, 240, 240);
@@ -248,7 +251,6 @@ nav{
       align-items: center;
       //   width: 280px;
       height: 40px;
-    // box-shadow: inset 0.5px 0.5px 2px 0 rgba(0, 0, 0, 0.15);
     label {
         font-family: "Open Sans", sans-serif;
         cursor: pointer;
@@ -304,6 +306,14 @@ nav{
         max-width : 500px;
     }
 }
+.page-100-nav{
+    height : 100%;
+    width: 100vw;
+    min-height : calc(100vh - 130px);
+    background-size : cover;
+    background-position: center;
+}
+
 .page-repeat{
     height : 100%;
     width: 100%;

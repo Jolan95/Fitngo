@@ -251,6 +251,7 @@ class AdminController extends AbstractController
                     'mail' => $mail,
                     'password' => $password,
                 ]);
+                $mailer->send($email);
                 
 
                 return $this->render("security/creation-franchise.html.twig", [

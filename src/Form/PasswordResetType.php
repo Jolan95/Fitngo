@@ -15,14 +15,17 @@ class PasswordResetType extends AbstractType
     {
         $builder->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
-            'invalid_message' => 'The password fields must match.',
+            'invalid_message' => 'Les mots de passe doivent être identiques.',
             'options' => ['attr' => ['class' => 'password-field']],
             'required' => true,
-            'first_options'  => ['label' => 'Password'],
-            'second_options' => ['label' => 'Repeat Password'],
+            'first_options'  => ['label' => 'Nouveau mot de passe'],
+            'second_options' => ['label' => 'Répéter le mot de passe '],
         ])
         ->add("submit" , SubmitType::class, [
-            "label" => "Confirmer"
+            "label" => "Confirmer",
+            "attr" => [
+                "class"  => "btn-grad grad-green"
+            ]
             
         ]);
     }

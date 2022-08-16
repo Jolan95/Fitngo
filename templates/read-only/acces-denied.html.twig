@@ -1,12 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FranchiseController!{% endblock %}
+{% block title %}Accès refusé{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('modal') }}
+{% endblock %}
 
 {% block body %}
 {% include 'includes/navigation.html.twig' %}
-    <div class="full-center mt-3">
-        <div style="background-color : red ; padding : 30px; border-radius : 12px; color : black">
-        {{error}}
+<div class="page-100-nav pt-5" style="background-image : url('{{asset("img/presse.jpg")}}')">
+    <div class="container">
+        <div class="alert alert-danger ">
+            {{error}}
+        </div>
     </div>
+</div>    
 {% endblock 
 %}
