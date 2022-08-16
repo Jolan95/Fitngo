@@ -320,7 +320,7 @@ class AdminController extends AbstractController
             $email = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($mail)
-            ->subject("Structrue créée")
+            ->subject("Structure créée")
             ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/new_structure.html.twig')
             ->context([
@@ -335,7 +335,7 @@ class AdminController extends AbstractController
             $emailFranchise = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($userFranchise->getEmail())
-            ->subject("Une nouvelle structrue créée !")
+            ->subject("Une nouvelle structure créée !")
             ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/new_structure.html.twig')
             ->context([

@@ -4,26 +4,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Gurmukhi&display=swap');
 
-$nav-color : rgb(8,18,39);
-$nav-color :  rgba(255,255,255,0.0);
+//Variables
 $font1 : 'Lobster', cursive;
 $font-button : 'Rubik', cursive;
 $font2 : 'Tiro Gurmukhi', serif;
 $bg-color : rgb(226, 220, 220);
 
+
+/**Global Style**/
+body{
+    // color : black;
+    // -webkit-touch-callout: none; /* iOS Safari */
+    // -webkit-user-select: none; /* Safari */
+    // -khtml-user-select: none; /* Konqueror HTML */
+    // -moz-user-select: none; /* Old versions of Firefox */
+    // user-select: none; 
+    background-color: $bg-color;
+}
 .logout{
     min-width : 50px;
-}
-/**Global Style**/
-
-body{
-    color : black;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    user-select: none; 
-    background-color: $bg-color;
 }
 h1, h2, h3{
 
@@ -63,9 +62,6 @@ h1, h2, h3{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.modal{
-    color : black
 }
 a:link , a:visited, a:hover{
     text-decoration: none;
@@ -291,13 +287,6 @@ nav{
     input[type="radio"]:not(:checked) + label {
         background-color: rgba(152, 152, 152, 0.173);
     }
-}
-.bandeau{
-    height : 220px;
-    width : 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .page-100{

@@ -1,15 +1,23 @@
+<style>
+.green{
+    color : green;
+}
+.red{
+    color : red;
+}
+</style>
 {% if franchise is defined %}
-<h1>Les permissions de  la structure {{structure.userInfo.name}} ont été modifiés ! </h1>
+<h1>Les permissions de la structure {{structure.userInfo.name}} ont été modifiés ! </h1>
 
-<p>
 
-Voici le récapitulatif de vos accès et permissions pour votre structure {{structure.userInfo.name}}
+<div>Voici le récapitulatif de vos accès et permissions pour votre structure {{structure.userInfo.name}}</div>
 
+<p>Statut : </p>
 <p>
     {% if structure.isActive  %}
-    Votre structure est activé
+    <div class="green">Cette structure est activée</div>
     {% else %}
-    Votre structure est désactivée
+    <div class="red">CETTE STRUCTURE EST DESACTIVEE</div>
     {% endif %}
 </p>
 
@@ -17,15 +25,20 @@ Les options de {{structure.userInfo.name}} :
 {% else %}
 <h1>Les permissions de votre structure {{structure.userInfo.name}} ont été modifiés ! </h1>
 
+<div>Voici le récapitulatif de vos accès et permissions pour votre structure {{structure.userInfo.name}}:</div>
+<p>Statut : </p>
 <p>
     {% if structure.isActive  %}
-    Votre structure est activé
+    <div class="green">Votre structure est activée</div>
     {% else %}
-    Votre structure est désactivée
+    <div class="red">VOTRE STRUCTURE EST DESACTIVEE</div>
     {% endif %}
 </p>
 
 Les options de {{structure.userInfo.name}} : 
 {% endif %}
-    <div>Options par défaut : <div>
     {% include "includes/permit.html.twig" %}
+
+<div style="margin-top : 30px">   
+    <i>L'équipe Fitngo</i>
+</div>

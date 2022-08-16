@@ -1,27 +1,32 @@
-{% extends 'base.html.twig' %}
+<style>
 
-{% block body %}
-<div class="container">
-    <h1 class="h2 text-center pt-3">Vos Permissions ont été modifiés ! </h1>
-    <div class="bandeau mt-5" style="background-image : url('{{asset("img/gymroom.jpg")}}')"></div>
-    <p class="text-center mt-5 h3">Voici le récapitulatif de vos accès et permissions pour votre franchise {{franchise.userInfo.name}} : </p>
-    <div class="h5 mb-4 mt-3">
-        <p class="h4">Statut : </p>
+.green{
+    color : green;
+}
+.red{
+    color : red;
+}
+</style>
+
+    <h1 >Vos Permissions ont été modifiés ! </h1>    
+    <p>Voici le récapitulatif de vos accès et permissions pour votre franchise {{franchise.userInfo.name}} : </p>
+    <div>
+        <p>Statut : </p>
         {% if franchise.isActive  %}
-        <div class="green">Votre franchise est activé</div>
+        <div class="green">Votre franchise est activée</div>
         {% else %}
-        <div class="red">Votre franchise est désactivé</div>
+        <div class="red">VOTRE FRANCHISE EST DESACTIVEE</div>
         {% endif %}
     </div>
 
     
-    <div class="h5">
-        <p class="h4">Options par défaut : </p>
+    <div >
+        <p>Options par défaut : </p>
         {% include "includes/permit.html.twig" %}
     </div>
 
-    <div class="mt-5">
-    <a href="{{path('app_login')}}">Accéder a l'API Fitngo</a>
+    <div style="margin-top : 20px">
+    <i>L'équipe Fitngo</i>
     </div>
 </div>    
-{% endblock %}
+
