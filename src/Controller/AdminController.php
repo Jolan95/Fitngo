@@ -25,6 +25,7 @@ use App\Entity\Permit;
 use App\Repository\PermitRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Security;
 
 
 /**
@@ -75,6 +76,7 @@ class AdminController extends AbstractController
         $permit = $franchise->getPermit();
         $structures = $franchise->getStructures();
         $mail = false;
+      
 
         $form = $this->createForm(IsActiveType::class, $franchise);
         
@@ -134,7 +136,7 @@ class AdminController extends AbstractController
      * @Route("/edit_structure/{id}", name="app_edit_structure")
      */
     public function edit_structure($id, MailerInterface $mailer, StructureRepository $structureRepository, IsActiveType $isActiveType , ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
-
+        
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
  
@@ -150,7 +152,7 @@ class AdminController extends AbstractController
             $entityManager = $manager->getManager();
             $entityManager->persist($structure);
             $entityManager->flush(); 
-            $this->addFlash('success', 'La modifications des droits a été enregistés.');
+            $this->addFlash('success', 'La modification des droits a été enregistés.');
             
             
             $email = (new TemplatedEmail())

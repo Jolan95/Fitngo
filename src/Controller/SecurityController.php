@@ -16,6 +16,7 @@ use App\Form\PasswordType;
 use App\Form\PasswordResetType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Security;
 
 
 class SecurityController extends AbstractController
@@ -86,7 +87,9 @@ class SecurityController extends AbstractController
 
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
-
+        if($this->getUser()->getFranchise()->getId() != $id){
+            throw new Exception("Vous n'avez pas accès à cette page", 403);
+        }
         if($form->isSubmitted() && $form->isValid() ){
             if(strlen($form->getData()["password"]) > 7){
 
@@ -116,29 +119,33 @@ class SecurityController extends AbstractController
      * @Route("/edit-my-password/structure/{id}", name="edit-password-structure")
      */
     public function edit_password_structure($id, Request $request,StructureRepository $structureRepository, UserRepository $userRepository, ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher){
-
+        
         $structure = $structureRepository->findOneBy(["id" => $id]);
         $user = $userRepository->findOneBy(["Structure" => $structure]);
-
+        
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            if(strlen($form->getData()["password"]) > 7){
-            $password = $form->getData()["password"];
-            $hashedPassword = $passwordHasher->hashPassword($user, $password);
-            $user->setPassword($hashedPassword);
-            $structure->setLastConnection(new \DateTime('now'));
-            $entityManager = $manager->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $entityManager = $manager->getManager();
-            $entityManager->persist($structure);
-            $entityManager->flush();
-            $this->addFlash("success","Ton mot de passe à bien été modifié");
-            }else{
-                $this->addFlash("error", "Votre mot de passe doit comporter au moins 8 caractères");                
-            }
+        if($this->getUser()->getStructure()->getId() != $id){
+            throw new Exception("Vous n'avez pas accès à cette page", 403);
         }
+
+            if($form->isSubmitted() && $form->isValid()){
+                if(strlen($form->getData()["password"]) > 7){
+                    $password = $form->getData()["password"];
+                    $hashedPassword = $passwordHasher->hashPassword($user, $password);
+                    $user->setPassword($hashedPassword);
+                    $structure->setLastConnection(new \DateTime('now'));
+                    $entityManager = $manager->getManager();
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $entityManager = $manager->getManager();
+                    $entityManager->persist($structure);
+                    $entityManager->flush();
+                    $this->addFlash("success","Ton mot de passe à bien été modifié");
+                }else{
+                    $this->addFlash("error", "Votre mot de passe doit comporter au moins 8 caractères");                
+                }
+            }
         return $this->render("security/edit-password.html.twig", [
             'message' => "It's good structure",
             'form' => $form->createView()

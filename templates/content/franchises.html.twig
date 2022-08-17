@@ -4,7 +4,7 @@
             <div class="box-wrapper {{ franchise.isActive == true ? '' :'box-inactive' }} p-2">
                 <h3 class="text-center">{{franchise.userInfo.name}}</h3>
                 <div>ID : {{franchise.userInfo.id}}</div>
-                <div class="overflow-hidden text-nowrap">Email : {{franchise.userInfo.email}}</div>
+                <div class="overflow-hidden text-nowrap">Email : <span class="lower">{{franchise.userInfo.email}}</span></div>
                 <div>Structures : {{franchise.structures|length }}</div>
                 {% if franchise.isActive == true %}
                 <div class="green">Active</div>

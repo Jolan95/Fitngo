@@ -5,7 +5,7 @@
         <div class="box-wrapper row {{ structure.isActive == true ? '' :'box-inactive' }} mb-2">
             <h3 class="overflow-hidden text-nowrap text-center">{{structure.userInfo.name}}</h3>
             <div >Id : {{structure.id}}</div>
-            <div class="overflow-hidden text-nowrap">{{structure.userInfo.email}}</div>
+            <div class="overflow-hidden text-nowrap"><span class="lower">{{structure.userInfo.email}}</span></div>
                 {% if structure.isActive == true %}
                     <div class="green">Activé</div>
                     {% else %}
