@@ -123,6 +123,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            if(strlen($form->getData()["password"]) > 7){
             $password = $form->getData()["password"];
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);
@@ -134,6 +135,9 @@ class SecurityController extends AbstractController
             $entityManager->persist($structure);
             $entityManager->flush();
             $this->addFlash("success","Ton mot de passe à bien été modifié");
+            }else{
+                $this->addFlash("error", "Votre mot de passe doit comporter au moins 8 caractères");                
+            }
         }
         return $this->render("security/edit-password.html.twig", [
             'message' => "It's good structure",
