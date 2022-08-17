@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil !{% endblock %}
+{% block title %}Les Franchises{% endblock %}
 
 {% block javascripts %}
  {{ encore_entry_script_tags('filter_franchise') }}
@@ -11,7 +11,7 @@
 {% block body %}
 {% embed 'includes/navigation.html.twig' %}
     {% block additionalItem %}
-    <h1>Les Franchises</h1>
+    <h2>Les Franchises</h2>
     {% endblock %}
 {% endembed %}
 
@@ -25,8 +25,8 @@
         </div>
         {% endfor %}
     </div>    
-    <a href="{{path("app_create_franchise")}}">
-        <button class="btn-grad grad-green full-center add-franchise d-flex mb-2">
+    <a href="{{path("app_create_franchise")}}" class="w-100">
+        <button class="btn-grad grad-green full-center add-franchise d-flex mb-2 w-100">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle bold pe-2" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>

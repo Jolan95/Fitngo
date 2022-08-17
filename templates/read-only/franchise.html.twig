@@ -33,7 +33,7 @@
             {% if franchise.structures|length > 0  %}
                 {% for structure in franchise.structures %}
                     <div class="box-wrapper-inline px-4 my-3">
-                        <h3 class="bold">{{structure.userInfo.name}}</h3>
+                        <h3 >{{structure.userInfo.name}}</h3>
                         {% if structure.isActive %}
                         <div class="d-flex">
                             <a href="{{path("read_structure", {'token': structure.userInfo.url })}}">

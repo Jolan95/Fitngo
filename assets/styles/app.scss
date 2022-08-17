@@ -21,7 +21,7 @@ body{
     // user-select: none; 
     background-color: $bg-color;
 }
-h1, h2, h3{
+h1, h2{
     font-family : $font1;
 }
 .w-100{
@@ -34,6 +34,7 @@ h1, h2, h3{
 }
 a:link , a:visited, a:hover{
     text-decoration: none;
+    display: inline-block;
 }
 .bold{
     font-weight :700;
@@ -186,7 +187,6 @@ input{
 .radio-box {
     display: flex;
     align-items: center;
-    //   width: 280px;
     height: 40px;
     label {
       font-family: "Open Sans", sans-serif;

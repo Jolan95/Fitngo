@@ -11,7 +11,9 @@
                 {% else %}
                 <div class="red">Inactive</div>
                 {% endif %}
+                <div>
                 <a href="{{path("app_edit_franchise", {'id': franchise.id })}}"><button class="btn-grad grad-green ">Editer</button></a>
+                </div>
             </div>
         </div>
     {% endfor %}
