@@ -124,7 +124,8 @@ class AdminController extends AbstractController
                 "id" => $id,
                 "structures"=>$structures,
                 "form" => $form->createView(),
-                "mail" => $mail
+                "mail" => $mail,
+                "permit" => $permit
             ]
         );
     }
@@ -170,7 +171,7 @@ class AdminController extends AbstractController
             ->to($franchise->getUserInfo()->getEmail())
             ->subject("Les accès d'une de vos structure ont été modifiés")
             ->text('Sending emails is fun again!')
-            ->htmlTemplate('mail/permission.html.twig')
+            ->htmlTemplate('mail/permission_toFranchise.html.twig')
             ->context([
                 'structure' => $structure,
                 'permit' => $structure->getPermit(),
@@ -186,7 +187,8 @@ class AdminController extends AbstractController
             "franchise" => $franchise,
             "id" => $id,
             "form" => $form->createView(),
-            "mail" => $mail
+            "mail" => $mail,
+            "permit" => $permit
         ]);
     }
 
@@ -200,7 +202,6 @@ class AdminController extends AbstractController
         $user = new User();
         $form = $this->createForm(NewFranchiseType::class, $user);
         $form->handleRequest($request);
-        $mail = false;
 
         /** if form is correct */
         if($form->isSubmitted() && $form->isValid()){
@@ -247,8 +248,7 @@ class AdminController extends AbstractController
                 ->text('Sending emails is fun again!')
                 ->htmlTemplate('mail/new_franchise.html.twig')
                 ->context([
-                    'name' => $name,
-                    'mail' => $mail,
+                    "franchise" => $franchise,
                     'password' => $password,
                 ]);
                 $mailer->send($email);
@@ -257,7 +257,8 @@ class AdminController extends AbstractController
                 return $this->render("security/creation-franchise.html.twig", [
                     "form" => $form->createView(),
                     "id" => $user->getId(),
-                    "new_franchise_id" => $user->getId(),
+                    "franchise" => $franchise,
+                    "password" => $password
                 ]);    
             }
         return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
@@ -324,8 +325,7 @@ class AdminController extends AbstractController
             ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/new_structure.html.twig')
             ->context([
-                'name' => $name,
-                'mail' => $mail,
+                'user' => $user,
                 'password' => $password,
             ]);
    
@@ -337,10 +337,10 @@ class AdminController extends AbstractController
             ->to($userFranchise->getEmail())
             ->subject("Une nouvelle structure créée !")
             ->text('Sending emails is fun again!')
-            ->htmlTemplate('mail/new_structure.html.twig')
+            ->htmlTemplate('mail/new_structure_toFranchise.html.twig')
             ->context([
-                'franchise_name' => $userFranchise->getName(),
-                'name' => $name,
+                'franchise' => $franchise,
+                'user' => $user
             ]);
    
             $mailer->send($emailFranchise);
@@ -348,7 +348,8 @@ class AdminController extends AbstractController
             return $this->render("security/creation-structure.html.twig", [
                 "form" => $form->createView(),
                 "franchise" => $franchise,
-                "new_structure_id" => $user->getId(), 
+                "user" => $user, 
+                "password" => $password
             ]); 
         }
         

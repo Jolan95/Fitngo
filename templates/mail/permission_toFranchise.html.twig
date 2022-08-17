@@ -6,18 +6,17 @@
         color : red;
     }
 </style>
-    <h1 class="h4">Les permissions de votre structure {{structure.userInfo.name}} ont été modifiés ! </h1>
-    <div>Voici le récapitulatif de vos accès et permissions pour votre structure {{structure.userInfo.name}}:</div>
+    <h1 class="h4">Les permissions de la structure {{structure.userInfo.name}} ont été modifiés ! </h1>
+    <div>Voici le récapitulatif des accès et permissions pour la structure {{structure.userInfo.name}}</div>
     <p>Statut : </p>
     <p>
         {% if structure.isActive  %}
-        <div class="green">Votre structure est activée</div>
+        <div class="green">Cette structure est activée</div>
         {% else %}
-        <div class="red">VOTRE STRUCTURE EST DESACTIVEE</div>
+        <div class="red">CETTE STRUCTURE EST DESACTIVEE</div>
         {% endif %}
     </p>
     Les options de {{structure.userInfo.name}} : 
-
 {% include "includes/permit.html.twig" %}
 <div style="margin-top : 30px">   
     <i>L'équipe Fitngo</i>

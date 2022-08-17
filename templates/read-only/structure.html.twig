@@ -14,38 +14,30 @@
         </div>
     {% endblock %}
 {% endembed %}
-
     {% if url is defined %}
-        <a href="{{path("read_franchise", {"token" : url})}}"><button class="btn-grad grad-red position-absolute mt-3 ms-3">< Ma Franchise</button></a>
+    <a href="{{path("read_franchise", {"token" : url})}}"><button class="btn-grad grad-red position-absolute mt-3 ms-3">< Ma Franchise</button></a>
     {% endif %}
-        <div class="page-100-nav pt-5" style="background-image : url('{{asset("img/weight.jpeg")}}');">
-            
-            <div class="pt-3 container">
-                <h2 class="mb-3">Statut :</h2>
-                <div class="box-wrapper box-wrapper-big mb-4">
-                {% if structure.isActive == true %}
-                    <div class="d-flex">
-                        <div class="circle-green"></div>
-                        <div class="h4 green ms-1"> Actif </div>
-                    </div>
-                {% else %}
-                    <div class="d-flex">
-                        <div class="circle-red"></div>
-                        <div class="h4 red ms-1"> Inactif </div>
-                    </div>
-
-                {% endif %}
+    <div class="page-100-nav pt-5" style="background-image : url('{{asset("img/weight.jpeg")}}');"> 
+        <div class="pt-3 container">
+            <h2 class="mb-3">Statut :</h2>
+            <div class="box-wrapper box-wrapper-big mb-4">
+            {% if structure.isActive == true %}
+                <div class="d-flex">
+                    <div class="circle-green"></div>
+                    <div class="h4 green ms-1"> Actif </div>
                 </div>
-
-                    <h2 class="mb-3 text-light">Options : <h2>
-                    <div class="box-wrapper box-wrapper-big">
-                        {% include "includes/permit.html.twig" %}
-                    </div>
+            {% else %}
+                <div class="d-flex">
+                    <div class="circle-red"></div>
+                    <div class="h4 red ms-1"> Inactif </div>
+                </div>
+            {% endif %}
             </div>
-        <div>
-  
-
-        
+                <h2 class="mb-3 text-light">Options : <h2>
+                <div class="box-wrapper box-wrapper-big">
+                    {% include "includes/permit.html.twig" %}
+                </div>
+            </div>
+        <div> 
     </div>
-
 {% endblock %}

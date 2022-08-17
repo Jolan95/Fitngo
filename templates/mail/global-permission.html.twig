@@ -1,32 +1,27 @@
 <style>
-
-.green{
-    color : green;
-}
-.red{
-    color : red;
-}
+    .green{
+        color : green;
+    }
+    .red{
+        color : red;
+    }
 </style>
-
-    <h1 >Vos Permissions ont été modifiés ! </h1>    
-    <p>Voici le récapitulatif de vos accès et permissions pour votre franchise {{franchise.userInfo.name}} : </p>
-    <div>
-        <p>Statut : </p>
-        {% if franchise.isActive  %}
-        <div class="green">Votre franchise est activée</div>
-        {% else %}
-        <div class="red">VOTRE FRANCHISE EST DESACTIVEE</div>
-        {% endif %}
-    </div>
-
-    
-    <div >
-        <p>Options par défaut : </p>
-        {% include "includes/permit.html.twig" %}
-    </div>
-
+<h1 >Vos Permissions ont été modifiés ! </h1>    
+<p>Voici le récapitulatif de vos accès et permissions pour votre franchise {{franchise.userInfo.name}} : </p>
+<div>
+    <div>Statut : </div>
+    {% if franchise.isActive  %}
+    <p class="green">Votre franchise est activée</p>
+    {% else %}
+    <p class="red">VOTRE FRANCHISE EST DESACTIVEE</p>
+    {% endif %}
+</div>   
+<div >
+    <div>Options par défaut : </div>
+    {% include "includes/permit.html.twig" %}
+</div>
     <div style="margin-top : 20px">
-    <i>L'équipe Fitngo</i>
+        <i>L'équipe Fitngo</i>
     </div>
 </div>    
 

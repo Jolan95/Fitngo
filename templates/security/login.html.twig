@@ -6,8 +6,7 @@
 <div class="page-100 full-center" style="background-image : url('{{asset("img/background-fitness.jpg")}}')">
     <div class="wrapper-form p-4">
         <form method="post">
-    
-            <h1 class="text-center  py-3">Connexion</h1>
+            <h1 class="text-center py-3">Connexion</h1>
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}

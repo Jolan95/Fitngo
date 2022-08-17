@@ -1,33 +1,15 @@
 <style>
-h2{
-    font-size : 1.3rem;
-}
+    h2{
+        font-size : 1.3rem;
+    }
 </style>
-{% if franchise_name is defined %}
-<h1>Nouvelle structure ! </h1>
-
-<h2>Fitngo est fière de vous notifier que votre Franchise s'agrandit ! </h2>
-
-<p>La stucture {{name}} de votre franchise ({{franchise_name}}) à été créée.</p>
-
-Un email à été envoyer à votre structure avec ses identifiants de connexion pour découvrir ses droits !
-
-
-
-
-{% else %}
-<h1>Welcome to Fitngo!</h1>
-
-<h2>La Structure {{name}} à été créée !</h2>
-
-<p>Vos identifiants de connexion ont été crées, vous recevrez un mail lorsque votre accès sera activé par Fitngo</p>
-
-<ul>
-    <li> Email : {{mail}}</li>
-    <li> Password : {{password}}</li>
-</ul>
-{% endif %}
-
+    <h1 class="h3">Welcome to Fitngo!</h1>
+    <h2>La Structure {{user.name}} à été créée !</h2>
+    <p>Vos identifiants de connexion ont été créés, vous recevrez un mail lorsque votre accès sera activé par Fitngo</p>
+    <ul>
+        <li> Email : {{user.email}}</li>
+        <li> Password : {{password}}</li>
+    </ul>
 <div>
-<i >L'equipe Fitngo</i>
+    <i >L'equipe Fitngo</i>
 </div>

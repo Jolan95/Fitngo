@@ -7,13 +7,12 @@
 {% endblock %}
 
 {% block body %}
-{% include 'includes/navigation.html.twig' %}
-<div class="page-100-nav pt-5" style="background-image : url('{{asset("img/presse.jpg")}}')">
-    <div class="container">
-        <div class="alert alert-danger ">
-            {{error}}
+    {% include 'includes/navigation.html.twig' %}
+    <div class="page-100-nav pt-5" style="background-image : url('{{asset("img/presse.jpg")}}')">
+        <div class="container">
+            <div class="alert alert-danger ">
+                {{error}}
+            </div>
         </div>
-    </div>
-</div>    
-{% endblock 
-%}
+    </div>    
+{% endblock %}

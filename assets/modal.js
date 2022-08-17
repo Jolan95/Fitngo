@@ -42,3 +42,21 @@ $("#close-flash").on("click", ()=> {
     $(".alert").alert('close')
 })
 
+
+//onglets Mails/Contents
+$("#mail-button").click(()=>{
+    $("#mail-main").attr("hidden",false);
+    $("#page-main").attr("hidden",true);
+    $("#mail-secondary").attr("hidden",true);
+})
+$("#mailSecond-button").click(()=>{
+    $("#mail-secondary").attr("hidden",false);
+    $("#page-main").attr("hidden",true);
+    $("#mail-main").attr("hidden",true);
+})
+$("#page-button").click(()=>{
+    $("#page-main").attr("hidden",false);
+    $("#mail-secondary").attr("hidden",true);
+    $("#mail-main").attr("hidden",true);
+})
+
