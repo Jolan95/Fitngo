@@ -38,6 +38,9 @@ a:link , a:visited, a:hover{
 .bold{
     font-weight :700;
 }
+.pl-50{
+    padding-left : 50px;
+}
 
 
 //text
@@ -147,7 +150,6 @@ input{
     height: 50px;
     width: 50px;
     border-style: none;
-    // padding: 10px;
     font-size: 18px;
     letter-spacing: 2px;
     outline: none;
@@ -166,7 +168,6 @@ input{
     font-weight: 200;
 }
   .btn-search{
-    width: 50px;
     height: 50px;
     border-style: none;
     font-size: 20px;
@@ -176,7 +177,10 @@ input{
     border-radius: 50%;
     color:black ;
     background-color:transparent;
-    pointer-events: painted;  
+    pointer-events: painted; 
+    display : flex;
+    justify-content: center;
+    align-items: center; 
 }
 //input filter//
 .radio-box {
@@ -192,7 +196,7 @@ input{
       justify-content: center;
       align-items: center;
       background-color: inherit;
-      width: 90px;
+      width: 80px;
       height: 100%;
       text-align: center;
       border-radius: 4px 16px 0px 0px;
@@ -330,23 +334,25 @@ nav{
 }
 .wrapper-onglets{
     button:first-child{
-        background-color :rgb(1, 88, 1);
         border-radius : 10px 0px 0px 10px;
     }
     button:last-child{
-        background-color :rgb(1, 88, 1);
         border-radius :  0px 10px 10px 0px ;
     }
-    color : black;
     button{
-        background-color : black;
+        background-color :rgba(152, 152, 152, 0.293);
         color : white;
         border : none;
-
         padding : 10px;
         display: flex;
         align-items : center;
         justify-content: center;
+    }
+    button:not(.selected):hover{
+        background-color: rgba(0, 0, 0, 0.399); 
+    }
+    .selected{
+        background-color : black;
     }
 }
 
@@ -384,13 +390,18 @@ nav{
         .btn-search{
             position: absolute;
             right: 0px;
+            width : 50px;
         }
         .input-search{
             margin : 0px;
         }
         .input-radio {
-            border-bottom: 2px solid black;
-            
+            border-bottom: 2px solid black;   
+        }
+        .radio-box{
+            label{
+                width : 100px
+            }
         }
     }
 }

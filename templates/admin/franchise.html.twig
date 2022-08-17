@@ -18,27 +18,33 @@
             </div>
         {% endblock %}
     {% endembed %}
-    <a href="{{path("app_admin")}}" class="position-absolute mx-3 mt-1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-backspace-fill red size-up" viewBox="0 0 16 16">
+    <div class="d-flex align-items-center">
+    <a href="{{path("app_admin")}}" class=" mx-1 mx-lg-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-backspace-fill red size-up" viewBox="0 0 16 16">
             <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
         </svg>
     </a>
-    {% if mail == true %}
-    <div class="d-flex wrapper-onglets">
-        <button id="page-button">
-            Contenu
-        </button>
-        <button id="mail-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
-            </svg>
-            Mail
-        </button>
+        {% if mail == true %}
+        <div class="d-flex wrapper-onglets">
+            <button id="page-button" class="selected">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-window me-1" viewBox="0 0 16 16">
+                    <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                    <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1H2z"/>
+                </svg>        
+                Contenu
+            </button>
+            <button id="mail-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope me-1" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                </svg>
+                Mail
+            </button>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-    <div class="container mt-4 pt-3 mb-2" id="page-main">
+    <div class="container pt-2 mb-2" id="page-main">
         {% for message in app.flashes('success') %}
-        <div class="alert alert-success mb-3 d-flex align-items-center">
+        <div class="alert alert-success mb-3 d-flex align-items-center mt-2">
             <div class="me-2">{{ message }}</div>
         </div>
         {% endfor %} 
@@ -50,7 +56,7 @@
             </svg> Nouvelle Structure
             </button>
         </a> 
-        <form id="filter" class="d-flex justify-content-between mb-2">
+        <form id="filter" class="d-flex justify-content-between my-2">
             <div class="radio-box">
                 <input type="radio" checked name="filter" id="all" value="">
                 <label for="all">Toutes</label>

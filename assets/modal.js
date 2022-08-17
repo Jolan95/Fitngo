@@ -44,19 +44,31 @@ $("#close-flash").on("click", ()=> {
 
 
 //onglets Mails/Contents
+function removeSelect(){
+    $("#mail-button").removeClass("selected")
+    $("#page-button").removeClass("selected")
+    $("#mailSecond-button").removeClass("selected")
+}
+
 $("#mail-button").click(()=>{
     $("#mail-main").attr("hidden",false);
     $("#page-main").attr("hidden",true);
     $("#mail-secondary").attr("hidden",true);
+    removeSelect();
+    $("#mail-button").addClass("selected");
 })
 $("#mailSecond-button").click(()=>{
     $("#mail-secondary").attr("hidden",false);
     $("#page-main").attr("hidden",true);
     $("#mail-main").attr("hidden",true);
+    removeSelect();
+    $("#mailSecond-button").addClass("selected");
 })
 $("#page-button").click(()=>{
     $("#page-main").attr("hidden",false);
     $("#mail-secondary").attr("hidden",true);
     $("#mail-main").attr("hidden",true);
+    removeSelect();
+    $("#page-button").addClass("selected");
 })
 

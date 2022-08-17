@@ -150,7 +150,7 @@ class AdminController extends AbstractController
             $entityManager = $manager->getManager();
             $entityManager->persist($structure);
             $entityManager->flush(); 
-            $this->addFlash('success', 'Les modifications des droits ont été enregistés.');
+            $this->addFlash('success', 'La modifications des droits a été enregistés.');
             
             
             $email = (new TemplatedEmail())
