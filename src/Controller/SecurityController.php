@@ -167,4 +167,20 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+            
+    // /**
+    //  * @Route("/create-admin", name="create_admin")
+    //  */
+    // public function create_admin(ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher,UserRepository $userRepository){
+    //     $user = new User();
+    //     $user->setEmail("admin@fitngo.fr");
+    //     $hashedPassword = $passwordHasher->hashPassword($user, "admin");
+    //     $user->setPassword($hashedPassword);
+    //     $user->setRoles(["ROLE_ADMIN"]);
+    //     $user->setName("ADMIN");
+    //     $entityManager = $manager->getManager();
+    //     $entityManager->persist($user);
+    //     $entityManager->flush();
+    //     return new Response("l'administrateur a été créé");
+    // }
 }
