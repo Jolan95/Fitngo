@@ -41,30 +41,24 @@ class AdminController extends AbstractController
     {      
         $franchises = $franchiseRepository->findAll();        
         $filter = $request->get("filter");
-
         $ajax = $request->query->get("ajax");
         $search = $request->query->get("search");
         $filter = $request->query->get("filter");
         $franchises = $franchiseRepository->findByFilters($filter, $search);
 
-        // check is ajax request
+        // check is ajax request and return new content
         if($ajax){
-   
             return new JsonResponse([
                 "content" => $this->renderView('content/franchises.html.twig', [
                     "franchises" => $franchises,
                 ])
-            ]);
-            
+            ]);  
         }
-    
         return $this->render('admin/index.html.twig', [
             "franchises" => $franchises,   
         ]);
 
     }
-     
-
     
     /**
      * @Route("/edit_franchise/{id}", name="app_edit_franchise")
@@ -76,10 +70,9 @@ class AdminController extends AbstractController
         $permit = $franchise->getPermit();
         $structures = $franchise->getStructures();
         $mail = false;
-      
-
         $form = $this->createForm(IsActiveType::class, $franchise);
         
+        //flush new permissions and send email
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $manager->getManager();
@@ -97,16 +90,15 @@ class AdminController extends AbstractController
             ->context([
                 'franchise' => $franchise,
                 'permit' => $permit,
-            ]);
-            
+            ]); 
             $mailer->send($email);
             $mail = true;
         }
-        
         $ajax = $request->query->get("ajax");
         $search = $request->query->get("search");
         $filter = $request->query->get("filter");
 
+        //check if ajax request
         if($ajax){
             $structures = $structureRepository->findByFilters($filter, $search, $id);
             return new JsonResponse([
@@ -139,13 +131,12 @@ class AdminController extends AbstractController
         
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
- 
         $permit = $permitRepository->findOneBy(["id" => $structure->getPermit()->getId()]);
-
         $form = $this->createForm(PermitType::class, $permit);
         $form->handleRequest($request);
         $mail = false;
-
+               
+        //flush new permissions and send email
         $form = $this->createForm(IsActiveType::class, $structure);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -154,7 +145,7 @@ class AdminController extends AbstractController
             $entityManager->flush(); 
             $this->addFlash('success', 'La modification des droits a été enregistés.');
             
-            
+            //send email to structure
             $email = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($structure->getUserInfo()->getEmail())
@@ -167,7 +158,7 @@ class AdminController extends AbstractController
             ]);
             $mailer->send($email);
 
-
+            //send email to franchise
             $emailtoFranchise = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($franchise->getUserInfo()->getEmail())
@@ -180,7 +171,6 @@ class AdminController extends AbstractController
                 'franchise' => $franchise
             ]);
             $mailer->send($emailtoFranchise);
-            
             $mail = true;
         }
 
@@ -194,25 +184,22 @@ class AdminController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/create_franchise", name="app_create_franchise")
      */
     public function create_franchise(Request $request, MailerInterface $mailer ,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
     {
-
         $user = new User();
         $form = $this->createForm(NewFranchiseType::class, $user);
         $form->handleRequest($request);
 
-        /** if form is correct */
+        /** if form is correct, creation new franchise */
         if($form->isSubmitted() && $form->isValid()){
                 
                 /* fetch posted datas */
                 $mail = $form->getData()->getEmail();
                 $name = $form->getData()->getName();
-
-                /* hydrate my entities */
+                
                 $permit = new Permit();
                 $franchise = new Franchise();
                 $permit->setOptions(false);
@@ -236,13 +223,13 @@ class AdminController extends AbstractController
                 $hashedPassword = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($hashedPassword);
 
-
                 /* flushing datas in db */
                 $entityManager = $manager->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();              
                 $this->addFlash('success', 'La franchise '.$name.' a été enregistrée avec succès.');
 
+                //send mail to franchise
                 $email = (new TemplatedEmail())
                 ->from('fitngo@outlook.fr')
                 ->to($mail)
@@ -266,8 +253,6 @@ class AdminController extends AbstractController
         return $this->render("security/creation-franchise.html.twig", ["form" => $form->createView()]);   
     }
 
-
-
     /**
      * @Route("/create_structure/{id}", name="create_structure")
      */
@@ -286,7 +271,6 @@ class AdminController extends AbstractController
             $permit->setLiveChat($franchise->getPermit()->isLiveChat());
             $permit->setVirtualTraining($franchise->getPermit()->isVirtualTraining());
             $permit->setDetailedData($franchise->getPermit()->isDetailedData());
-
             
             $structure  = new Structure();
             $structure->setPermit($permit);
@@ -319,7 +303,7 @@ class AdminController extends AbstractController
             $this->addFlash("success", "La structure ".$name." a été créée");     
 
 
-            // sending Mail to Structure and Franchise
+            // sending Mail to Structure 
             $email = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($mail)
@@ -333,6 +317,7 @@ class AdminController extends AbstractController
    
             $mailer->send($email);
 
+            //sending mail to franchise
             $userFranchise = $userRepository->findOneBy(["Franchise" => $franchise]);
             $emailFranchise = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
@@ -370,7 +355,6 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();   
         $this->addFlash('success', 'La franchise '.$user->getName().' a été supprimée avec succès.');
-
         
         return $this->redirectToRoute('app_admin');
     }
@@ -388,15 +372,8 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         $this->addFlash('success', 'La structure '.$user->getName().' a bien été supprimé.');
-           
- 
         
         return $this->redirectToRoute('app_edit_franchise', ["id" => $franchise]);
     }
-
-
-
-
-
 
 }

@@ -34,15 +34,18 @@ class SecurityController extends AbstractController
             $structure = $user->getStructure();
             $franchise = $user->getFranchise();            
             
+            //handle redirection according to roles
             if(in_array("ROLE_ADMIN", $roles)){
 
                 return $this->redirectToRoute('app_admin');
 
             } else if (in_array("ROLE_STRUCTURE", $roles)){
 
+                // if first login redirect to edit password
                 if($structure->getLastConnection() == null){
                     return $this->redirectToRoute("edit-password-structure", ['id' => $structure->getId()]);
                 } 
+                // if structure is not active redirect to access denied page
                 if(!$structure->isIsActive()){
                     return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre structure est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
                 } 
@@ -54,9 +57,11 @@ class SecurityController extends AbstractController
                 
             } else{
 
+                // if first login redirect to edit password
                 if($franchise->getLastConnection() == null){
                     return $this->redirectToRoute("edit-password-franchise", ['id' => $franchise->getId()]);
                 }
+                // if franchise is not active redirect to access denied page
                 if(!$franchise->isIsActive()){
                     return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre franchise est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
                 }
@@ -87,9 +92,11 @@ class SecurityController extends AbstractController
 
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
+        // throw error if the url if the param is not the the same as the id user
         if($this->getUser()->getFranchise()->getId() != $id){
             throw new Exception("Vous n'avez pas accès à cette page", 403);
         }
+        //check if password are identical and longer than 7 and flush new password
         if($form->isSubmitted() && $form->isValid() ){
             if(strlen($form->getData()["password"]) > 7){
 
@@ -125,10 +132,13 @@ class SecurityController extends AbstractController
         
         $form = $this->createForm(PasswordResetType::class);
         $form->handleRequest($request);
+
+        // throw error if the url if the param is not the the same as the id user
         if($this->getUser()->getStructure()->getId() != $id){
             throw new Exception("Vous n'avez pas accès à cette page", 403);
         }
 
+            //check if password are identical and longer than 7 and flush new password
             if($form->isSubmitted() && $form->isValid()){
                 if(strlen($form->getData()["password"]) > 7){
                     $password = $form->getData()["password"];
