@@ -1,2 +1,3 @@
-<h1>Fitngo</h1>
+<h1 align:center>How to deploy locally Fitngo</h1>
+
 
