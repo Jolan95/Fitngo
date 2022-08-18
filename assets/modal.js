@@ -44,12 +44,18 @@ $("#close-flash").on("click", ()=> {
 
 
 //onglets Mails/Contents
+
+//function removing style selected over every button
+const buttons = [$("#mail-button"), $("#page-button"), $("#mailSecond-button")]
 function removeSelect(){
-    $("#mail-button").removeClass("selected")
-    $("#page-button").removeClass("selected")
-    $("#mailSecond-button").removeClass("selected")
+    buttons.forEach((element) => {
+        element.removeClass("selected");
+
+    })
+
 }
 
+//handle hidden and show content after click on the buttons
 $("#mail-button").click(()=>{
     $("#mail-main").attr("hidden",false);
     $("#page-main").attr("hidden",true);

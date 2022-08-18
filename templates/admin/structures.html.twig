@@ -70,14 +70,14 @@
                     {{ form_row(form.isActive) }} 
                     </div>
                     {{ form_row(form.Permit) }}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" id="modal" disabled data-target="#permitModal">
+                    <button type="button" class="btn-grad grad-darkblue" data-toggle="modal" id="modal" disabled data-target="#permitModal">
                         Enregistrer les modifications
                     </button>
                     {{ form_end(form) }}
                 </div>
                 <div class="alert alert-warning mt-4">
                     <div>ID : {{structure.userInfo.id}}</div>
-                    <div>Email : {{structure.userInfo.email}}</div> 
+                    <div class="overflow-hidden flex-nowrap">Email : {{structure.userInfo.email}}</div> 
                     <div class="d-md-none">Franchise : {{franchise.userInfo.name}}</div> 
                 </div>
             </div>    

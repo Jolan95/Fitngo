@@ -3,9 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Gurmukhi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 
 //Variables
 $font1 : 'Lobster', cursive;
+// $font1 :  'Open Sans', sans-serif;
 $font-button : 'Rubik', cursive;
 $font2 : 'Tiro Gurmukhi', serif;
 $bg-color : rgb(226, 220, 220);
@@ -45,6 +48,9 @@ a:link , a:visited, a:hover{
 .lower{
     text-transform: lowercase;
 }
+button{
+    font-family: $font-button;
+}
 
 
 //text
@@ -83,7 +89,7 @@ a:link , a:visited, a:hover{
 .btn-grad {
     padding: 8px 15px;
     text-align: center;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
@@ -92,6 +98,10 @@ a:link , a:visited, a:hover{
     display : flex; 
     align-items : center;
     justify-content : center;
+    font-size : 18px;
+}
+.btn-grad:disabled{
+opacity : 0.8
 }
 .btn-grad:hover {
     background-position: right center; /* change the direction of the change here */
@@ -321,8 +331,8 @@ nav{
     border : none;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     h3{
-        font-size: 1.8rem;
-
+        font-size: 1.3rem;
+        font-size : $font-button
     }
 }
 .box-inactive{

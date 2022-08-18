@@ -47,7 +47,7 @@ class SecurityController extends AbstractController
                 } 
                 // if structure is not active redirect to access denied page
                 if(!$structure->isIsActive()){
-                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre structure est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
+                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre structure est désactivée, Fitn'go ne vous donne pas d'accès pour le moment."]);
                 } 
                 $structure->setLastConnection(new \DateTime('now'));
                 $entityManager = $manager->getManager();
@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
                 }
                 // if franchise is not active redirect to access denied page
                 if(!$franchise->isIsActive()){
-                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre franchise est désactivé, Fitn'go ne vous donne pas d'accès pour le moment."]);
+                    return $this->render('read-only/acces-denied.html.twig', [ 'error' => "Votre franchise est désactiveé, Fitn'go ne vous donne pas d'accès pour le moment."]);
                 }
                 $franchise->setLastConnection(new \DateTime('now'));
                 $entityManager = $manager->getManager();

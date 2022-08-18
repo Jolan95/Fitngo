@@ -43,7 +43,7 @@ class FranchiseController extends AbstractController
 
             } else {
 
-                throw new Exception("Votre structure est actuellement désactivé.", 403);
+                throw new Exception("Votre structure est actuellement désactivée.", 403);
             }
 
         } else{
@@ -72,7 +72,7 @@ class FranchiseController extends AbstractController
 
         // error if structure or structure's franchise is not valid
         if(!$structure->isIsActive() || !$structure->isIsActive()){
-            throw new Exception("Cette structure est actuellement désactivé.", 403);
+            throw new Exception("Cette structure est actuellement désactivée.", 403);
         }
 
         // find the user role

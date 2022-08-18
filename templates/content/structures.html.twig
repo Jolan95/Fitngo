@@ -7,9 +7,9 @@
             <div >Id : {{structure.id}}</div>
             <div class="overflow-hidden text-nowrap"><span class="lower">{{structure.userInfo.email}}</span></div>
                 {% if structure.isActive == true %}
-                    <div class="green">Activé</div>
+                    <div class="green">Activée</div>
                     {% else %}
-                    <div class="red ">Désactivé</div>
+                    <div class="red ">Désactivée</div>
                 {% endif %}
             <div >
                 <a href="{{path("app_edit_structure", {"id" : structure.id})}}"><button class="btn-grad grad-green">Editer</button></a>
