@@ -149,7 +149,7 @@ class AdminController extends AbstractController
             $email = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($structure->getUserInfo()->getEmail())
-            ->subject("Les accès de votre structure ont été modifiés")
+            ->subject("Les accès de votre structure ont été modifiées")
             ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/permission.html.twig')
             ->context([
@@ -162,7 +162,7 @@ class AdminController extends AbstractController
             $emailtoFranchise = (new TemplatedEmail())
             ->from('fitngo@outlook.fr')
             ->to($franchise->getUserInfo()->getEmail())
-            ->subject("Les accès d'une de vos structure ont été modifiés")
+            ->subject("Les accès d'une de vos structure ont été modifiées")
             ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/permission_toFranchise.html.twig')
             ->context([
