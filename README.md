@@ -18,7 +18,7 @@ lancez la commande `git init` puis `git clone https://github.com/Jolan95.fitngo.
  situez vous à la racine du réprertoire cloné, `cd fitngo`, installez les dépendances Composer `composer install` et les dépendaces Node `npm install`, une fois les deux commandes effectués lancez le build `npm run build`
  
  ## Config Xampp
- Configurez xampp pour lancez l'application via le localhost, pour cela, modifiez le fichier `xampp/apache/conf/extra/httpd-vhosts.conf` et renseignez le chemin complet de votre repertoire public de l'application dans le <Vurtual Host> : 
+ Configurez xampp pour lancez l'application via le localhost, pour cela, modifiez le fichier `xampp/apache/conf/extra/httpd-vhosts.conf` et renseignez le chemin complet de votre repertoire public de l'application dans le la balise Virtual Host : 
   
  
      <VirtualHost *:80>
