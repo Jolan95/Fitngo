@@ -18,21 +18,22 @@ lancez la commande `git init` puis `git clone https://github.com/Jolan95.fitngo.
  situez vous à la racine du réprertoire cloné, `cd fitngo`, installez les dépendances Composer `composer install` et les dépendaces Node `npm install`, une fois les deux commandes effectués lancez le build `npm run build`
  
  ## Config Xampp
- Configurez xampp pour lancez l'application via le localhost, pour cela, modifiez le fichier `xampp/apache/conf/extra/httpd-vhosts.conf` et renseignez le chemin complet de votre repertoire public de l'application dans le <Vurtual Host> :
-  ` 
-  <VirtualHost *:80>
-    ServerName symfony.localhost
+ Configurez xampp pour lancez l'application via le localhost, pour cela, modifiez le fichier `xampp/apache/conf/extra/httpd-vhosts.conf` et renseignez le chemin complet de votre repertoire public de l'application dans le <Vurtual Host> : 
+  
+ 
+     <VirtualHost *:80>
+       ServerName symfony.localhost
    
-    DocumentRoot "C:/xampp/apps/fitngo/public"
-    DirectoryIndex index.php
+       DocumentRoot "C:/xampp/apps/fitngo/public"
+       DirectoryIndex index.php
 
-    <Directory "C:/xampp/apps/fitngo/public">
+       <Directory "C:/xampp/apps/fitngo/public">
         Require all granted
 
         FallbackResource /index.php
-     </Directory>
-  </VirtualHost>
- `
+       </Directory>
+    </VirtualHost>
+
 
 Puis (re)lancez les modules APACHE et MYSQL de XAMPP.
   
