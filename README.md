@@ -21,7 +21,6 @@ lancez la commande `git init` puis `git clone https://github.com/Jolan95.fitngo.
  Configurez xampp pour lancez l'application via le localhost, pour cela, modifiez le fichier `xampp/apache/conf/extra/httpd-vhosts.conf` et renseignez le chemin complet de votre repertoire public de l'application dans le <Vurtual Host> :
   `<VirtualHost *:80>
     ServerName symfony.localhost
-
     DocumentRoot "C:/xampp/apps/fitngo/public"
     DirectoryIndex index.php
 
