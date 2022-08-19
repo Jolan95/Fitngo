@@ -3,12 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Gurmukhi&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 
 //Variables
 $font1 : 'Lobster', cursive;
-// $font1 :  'Open Sans', sans-serif;
 $font-button : 'Rubik', cursive;
 $font2 : 'Tiro Gurmukhi', serif;
 $bg-color : rgb(226, 220, 220);
@@ -16,13 +14,8 @@ $bg-color : rgb(226, 220, 220);
 
 /**Global Style**/
 body{
-    // color : black;
-    // -webkit-touch-callout: none; /* iOS Safari */
-    // -webkit-user-select: none; /* Safari */
-    // -khtml-user-select: none; /* Konqueror HTML */
-    // -moz-user-select: none; /* Old versions of Firefox */
-    // user-select: none; 
     background-color: $bg-color;
+    font-family: $font2;
 }
 h1, h2{
     font-family : $font1;
