@@ -63,7 +63,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_franchise/{id}", name="app_edit_franchise")
      */
-    public function edit_franchise($id, MailerInterface $mailer,  StructureRepository $structureRepository,userRepository $userRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_franchise($id, MailerInterface $mailer,  StructureRepository $structureRepository, FranchiseRepository $franchiseRepository, ManagerRegistry $manager,Request $request){
 
         $franchise = $franchiseRepository->FindOneBy(["id" => $id]);
         $user= $franchise->getUserInfo();
@@ -85,7 +85,6 @@ class AdminController extends AbstractController
             ->from('fitngo@outlook.fr')
             ->to($user->getEmail())
             ->subject("Permissions de votre franchise modifié !")
-            ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/global-permission.html.twig')
             ->context([
                 'franchise' => $franchise,
@@ -127,7 +126,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/edit_structure/{id}", name="app_edit_structure")
      */
-    public function edit_structure($id, MailerInterface $mailer, StructureRepository $structureRepository, IsActiveType $isActiveType , ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
+    public function edit_structure($id, MailerInterface $mailer, StructureRepository $structureRepository,ManagerRegistry $manager,PermitRepository $permitRepository,Request $request){
         
         $structure = $structureRepository->FindOneBy(["id" => $id]);
         $franchise = $structure->getFranchise();
@@ -150,7 +149,6 @@ class AdminController extends AbstractController
             ->from('fitngo@outlook.fr')
             ->to($structure->getUserInfo()->getEmail())
             ->subject("Les accès de votre structure ont été modifiées")
-            ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/permission.html.twig')
             ->context([
                 'structure' => $structure,
@@ -163,7 +161,6 @@ class AdminController extends AbstractController
             ->from('fitngo@outlook.fr')
             ->to($franchise->getUserInfo()->getEmail())
             ->subject("Les accès d'une de vos structure ont été modifiées")
-            ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/permission_toFranchise.html.twig')
             ->context([
                 'structure' => $structure,
@@ -187,7 +184,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/create_franchise", name="app_create_franchise")
      */
-    public function create_franchise(Request $request, MailerInterface $mailer ,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, UserRepository $userRepository )
+    public function create_franchise(Request $request, MailerInterface $mailer ,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher)
     {
         $user = new User();
         $form = $this->createForm(NewFranchiseType::class, $user);
@@ -234,7 +231,6 @@ class AdminController extends AbstractController
                 ->from('fitngo@outlook.fr')
                 ->to($mail)
                 ->subject("Franchise créée")
-                ->text('Sending emails is fun again!')
                 ->htmlTemplate('mail/new_franchise.html.twig')
                 ->context([
                     "franchise" => $franchise,
@@ -256,7 +252,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/create_structure/{id}", name="create_structure")
      */
-    public function create_structure($id, Request $request,  MailerInterface $mailer,UserRepository $userRepository, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+    public function create_structure($id, Request $request,  MailerInterface $mailer,UserRepository $userRepository, franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher){
        
         $franchise = $franchiseRepository->findOneBy(['id' => $id]);
 
@@ -308,7 +304,6 @@ class AdminController extends AbstractController
             ->from('fitngo@outlook.fr')
             ->to($mail)
             ->subject("Structure créée")
-            ->text('Sending emails is fun again!')
             ->htmlTemplate('mail/new_structure.html.twig')
             ->context([
                 'user' => $user,
@@ -323,7 +318,7 @@ class AdminController extends AbstractController
             ->from('fitngo@outlook.fr')
             ->to($userFranchise->getEmail())
             ->subject("Une nouvelle structure créée !")
-            ->text('Sending emails is fun again!')
+
             ->htmlTemplate('mail/new_structure_toFranchise.html.twig')
             ->context([
                 'franchise' => $franchise,
@@ -347,7 +342,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/remove_franchise/{id}", name="remove_franchise")
      */
-    public function remove_franchise($id, Request $request, UserRepository $userRepository,  franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+    public function remove_franchise($id, UserRepository $userRepository, ManagerRegistry $manager){
        
         $user = $userRepository->findOneBy(['id' => $id]);
         
@@ -362,7 +357,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/remove_structure/{id}", name="remove_structure")
      */
-    public function remove_structure($id, Request $request,StructureRepository $structureRepository, UserRepository $userRepository,  franchiseRepository $franchiseRepository,ManagerRegistry $manager, UserPasswordHasherInterface $passwordHasher, PermitRepository $permitRepository){
+    public function remove_structure($id,StructureRepository $structureRepository,ManagerRegistry $manager){
        
         $structure = $structureRepository->findOneBy(["id" => $id]);
         $franchise = $structure->getFranchise()->getId();
