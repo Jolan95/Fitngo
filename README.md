@@ -2,9 +2,11 @@
 ## Connexion en ligne
 
 ### URL en ligne
+https://fitngo.herokuapp.com/admin/
 ### Identifiants de connexion au panel d'administration
-admin@fitngo.fr 
-mdp : admin
+
+* admin@fitngo.fr 
+* mdp : admin
 
 ## Déployer localement l'application FITNGO
 
