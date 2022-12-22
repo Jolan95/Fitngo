@@ -1,4 +1,12 @@
-# Déployer localement l'application FITNGO
+# Fitngo
+## Connexion en ligne
+
+### URL en ligne
+### Identifiants de connexion au panel d'administration
+admin@fitngo.fr 
+mdp : admin
+
+## Déployer localement l'application FITNGO
 
 Fitngo est un projet symfony 6.
 
