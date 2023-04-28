@@ -1,4 +1,11 @@
 # Fitngo
+
+ Site créé pour un examen en cours de formation.
+ Fitngo est une chaîne de salle de sport fictive, pour laquelle j'ai créé un back-office en Symfony pour gérer la création de nouvelle structure et franchises de la   marque. Le back-office permet de gérer les accès aux fonctionnalités fournies par la marque pour chaques franchises.
+ 
+ Des identifiants de connexion sont générés à la création d'une nouvelle structure, un accès en lecture simple à au back-office est autorisé pour les structures.
+ Pour vous connecter, vous trouverez les identifants ci-dessous.
+ 
 ## Connexion en ligne
 
 ### URL en ligne
